@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Страница с фотографиями разных мест России">
+  <meta name="keywords" content="Карачаевск, Эльбрус, Дюмбай, Россия, путешествия">
+  <link rel="stylesheet" href="./pages/index.css">
+  <title>Место</title>
+</head>
+
+<body>
+  <div class="page">
+    <section class="form form_active">
+        <div class="form__container">
+            <h2 class="form__title">Редактировать профиль</h2>
+            <input type="text" class="form__add-name" value="Жак-Ив Кусто" placeholder="Введите имя">
+            <input type="text" class="form__add-description" value="Исследователь океана" placeholder="Напишите описание">
+            <input class="form__button" type="submit">
+            <button class="form__button-close"></button>
+        </div>
+    </section> 
+
+    <header class="header">
+        <img src="./images/logo.png" alt="Логотип Место" class="header__logo">
+    </header>
+
+    <main class="main">
+        <section class="profile">
+            <img src="./images/profile-image.jpg" alt="Фото профиля" class="profile__photo">
+            <div class="profile__info">
+                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <p class="profile__name-description">Исследователь океана</p>
+                <button class="profile__edit" ></button>
+            </div>
+            <button class="profile__add">+</button>
+        </section>
+        <section class="places">
+            <div class="card">
+                <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="card__photo">
+                <div class="card__description">
+                    <h2 class="card__name">Карачаевск</h2>
+                    <button class="card__like">
+                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="card__photo">
+                <div class="card__description">
+                    <h2 class="card__name">Гора Эльбрус</h2>
+                    <button class="card__like">
+                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./images/dombai.jpg" alt="Домбай" class="card__photo">
+                <div class="card__description">
+                    <h2 class="card__name">Домбай</h2>
+                    <button class="card__like">
+                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="card__photo">
+                <div class="card__description">
+                    <h2 class="card__name">Гора Эльбрус</h2>
+                    <button class="card__like"></button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./images/dombai.jpg" alt="Домбай" class="card__photo">
+                <div class="card__description">
+                    <h2 class="card__name">Домбай</h2>
+                    <button class="card__like">
+                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="card__photo">
+                <div class="card__description">
+                    <h2 class="card__name">Карачаевск</h2>
+                    <button class="card__like">
+                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
+                    </button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <span class="copyright">&copy; 2020 Mesto Russia</span>
+    </footer>
+
+  </div>
+</body>
+
+</html>
