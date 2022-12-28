@@ -1,8 +1,8 @@
 .card {
-    border-radius: 10px;
-    width: 100%;
-    aspect-ratio: 1/1.28;
-    line-height: 0;
-    overflow: hidden;
-    background-color: #FFFFFF;
+  border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 1/1.28;
+  line-height: 0;
+  overflow: hidden;
+  background-color: #FFFFFF;
 }

@@ -1,9 +1,8 @@
 .page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #000000;
-    font-family: 'Inter', Arial, sans-serif;
-    color: #FFFFFF;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000000;
+  font-family: 'Inter', Arial, sans-serif;
+  color: #FFFFFF;
 }

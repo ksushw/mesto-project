@@ -17,4 +17,4 @@
 
 **Ссылка на GitHub Pages**
 
-https://ksushw.github.io/russian-travel/
+https://ksushw.github.io/mesto-project/

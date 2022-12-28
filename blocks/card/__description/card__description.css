@@ -1,8 +1,8 @@
 .card__description {
-    padding: 0 20px 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #000000;
-    height: 21.88%;
+  padding: 0 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000000;
+  height: 21.88%;
 }

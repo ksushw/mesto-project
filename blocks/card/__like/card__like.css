@@ -1,21 +1,17 @@
 .card__like {
-    width: 22px;
-    height: 19px;
-    padding: 0;
-    background-color: #FFFFFF;
-    border: none;
-    background-color: transparent;
-    background-image: url(../../../images/like-button-disabled.svg);
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor: pointer;
+  width: 22px;
+  height: 19px;
+  padding: 0;
+  border: none;
+  background: transparent url(../../../images/like-button-disabled.svg) no-repeat;
+  background-size: contain;
 }
 
 .card__like:hover {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .card__like:active {
-    background-image: url(../../../images/like-button-active.svg);
-    opacity: 1;
+  background-image: url(../../../images/like-button-active.svg);
+  opacity: 1;
 }

@@ -1,10 +1,10 @@
 .header__logo {
-    width: 142px;
-    aspect-ratio: 1/0.2324;
+  width: 142px;
+  aspect-ratio: 1/0.2324;
 }
 
 @media (max-width: 767px) {
-    .header__logo {
-        width: 104px;
-    }
+  .header__logo {
+    width: 104px;
+  }
 }
