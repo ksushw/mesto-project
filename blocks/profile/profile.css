@@ -1,0 +1,17 @@
+.profile {
+    padding-top: 36.5px;
+    padding-bottom: 51px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+}
+
+@media (max-width: 767px) {
+    .profile {
+        padding-top: 38.25px;
+        padding-bottom: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

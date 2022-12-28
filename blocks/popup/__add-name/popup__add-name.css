@@ -1,0 +1,18 @@
+.popup__add-name {
+    padding: 0;
+    margin-bottom: 17px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border: none;
+    border-bottom: 1px solid #000000;
+    transition: 0.3s;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+}
+
+.popup__add-name:focus {
+    padding-left: 10px;
+    outline: none;
+}

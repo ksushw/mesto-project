@@ -10,20 +10,20 @@
   <title>Место</title>
 </head>
 
-<body>
+<body> 
   <div class="page">
-    <section class="form form_active">
-        <div class="form__container">
-            <h2 class="form__title">Редактировать профиль</h2>
-            <input type="text" class="form__add-name" value="Жак-Ив Кусто" placeholder="Введите имя">
-            <input type="text" class="form__add-description" value="Исследователь океана" placeholder="Напишите описание">
-            <input class="form__button" type="submit">
-            <button class="form__button-close"></button>
+    <section class="popup">
+        <div class="popup__container">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input type="text" class="popup__add-name" value="Жак-Ив Кусто" placeholder="Введите имя">
+            <input type="text" class="popup__add-description" value="Исследователь океана" placeholder="Напишите описание">
+            <input class="popup__button-save" type="submit" value="Сохранить">
+            <button class="popup__button-close"></button>
         </div>
     </section> 
 
     <header class="header">
-        <img src="./images/logo.png" alt="Логотип Место" class="header__logo">
+        <img src="./images/mesto-logo.svg" alt="Логотип Место" class="header__logo">
     </header>
 
     <main class="main">
@@ -31,62 +31,52 @@
             <img src="./images/profile-image.jpg" alt="Фото профиля" class="profile__photo">
             <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <p class="profile__name-description">Исследователь океана</p>
-                <button class="profile__edit" ></button>
+                <p class="profile__description">Исследователь океана</p>
+                <button class="profile__edit"></button>
             </div>
-            <button class="profile__add">+</button>
+            <button class="profile__add"></button>
         </section>
         <section class="places">
             <div class="card">
                 <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="card__photo">
                 <div class="card__description">
-                    <h2 class="card__name">Карачаевск</h2>
-                    <button class="card__like">
-                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
-                    </button>
+                    <h3 class="card__name">Карачаевск</h3>
+                    <button class="card__like"></button>
                 </div>
             </div>
             <div class="card">
                 <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="card__photo">
                 <div class="card__description">
-                    <h2 class="card__name">Гора Эльбрус</h2>
-                    <button class="card__like">
-                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
-                    </button>
-                </div>
-            </div>
-            <div class="card">
-                <img src="./images/dombai.jpg" alt="Домбай" class="card__photo">
-                <div class="card__description">
-                    <h2 class="card__name">Домбай</h2>
-                    <button class="card__like">
-                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
-                    </button>
-                </div>
-            </div>
-            <div class="card">
-                <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="card__photo">
-                <div class="card__description">
-                    <h2 class="card__name">Гора Эльбрус</h2>
+                    <h3 class="card__name">Гора Эльбрус</h3>
                     <button class="card__like"></button>
                 </div>
             </div>
             <div class="card">
                 <img src="./images/dombai.jpg" alt="Домбай" class="card__photo">
                 <div class="card__description">
-                    <h2 class="card__name">Домбай</h2>
-                    <button class="card__like">
-                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
-                    </button>
+                    <h3 class="card__name">Домбай</h3>
+                    <button class="card__like"></button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="card__photo">
+                <div class="card__description">
+                    <h3 class="card__name">Гора Эльбрус</h3>
+                    <button class="card__like"></button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="./images/dombai.jpg" alt="Домбай" class="card__photo">
+                <div class="card__description">
+                    <h3 class="card__name">Домбай</h3>
+                    <button class="card__like"></button>
                 </div>
             </div>
             <div class="card">
                 <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="card__photo">
                 <div class="card__description">
-                    <h2 class="card__name">Карачаевск</h2>
-                    <button class="card__like">
-                        <img class="card__like-image" src="./images/like-button.png" alt="Кнопка Лайка">
-                    </button>
+                    <h3 class="card__name">Карачаевск</h3>
+                    <button class="card__like"></button>
                 </div>
             </div>
 
@@ -94,7 +84,7 @@
     </main>
     
     <footer class="footer">
-        <span class="copyright">&copy; 2020 Mesto Russia</span>
+        <span class="footer__copyright">&copy; 2020 Mesto Russia</span>
     </footer>
 
   </div>

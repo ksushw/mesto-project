@@ -1,0 +1,17 @@
+.popup__add-description {
+    padding: 0;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border: none;
+    border-bottom: 1px solid #000000;
+    transition: 0.3s;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+}
+
+.popup__add-description:focus {
+    padding-left: 10px;
+    outline: none;
+}
