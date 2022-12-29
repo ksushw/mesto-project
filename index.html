@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +9,9 @@
   <link rel="stylesheet" href="./pages/index.css">
   <title>Место</title>
 </head>
+
 <body>
   <div class="page">
-    <section class="popup">
-      <div class="popup__container">
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__add-name" value="Жак-Ив Кусто" placeholder="Введите имя">
-        <input type="text" class="popup__add-description" value="Исследователь океана" placeholder="Напишите описание">
-        <input class="popup__button-save" type="submit" value="Сохранить">
-        <button class="popup__button-close"></button>
-      </div>
-    </section>
     <header class="header">
       <img src="./images/mesto-logo.svg" alt="Логотип Место" class="header__logo">
     </header>
@@ -28,58 +21,69 @@
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__description">Исследователь океана</p>
-          <button class="profile__edit"></button>
+          <button class="profile__edit" type="button"></button>
         </div>
-        <button class="profile__add"></button>
+        <button class="profile__add" type="submit"></button>
       </section>
       <section class="places">
         <div class="card">
           <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="card__photo">
           <div class="card__description">
             <h3 class="card__name">Карачаевск</h3>
-            <button class="card__like"></button>
+            <button class="card__like" type="button"></button>
           </div>
         </div>
         <div class="card">
           <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="card__photo">
           <div class="card__description">
             <h3 class="card__name">Гора Эльбрус</h3>
-            <button class="card__like"></button>
+            <button class="card__like" type="button"></button>
           </div>
         </div>
         <div class="card">
           <img src="./images/dombai.jpg" alt="Домбай" class="card__photo">
           <div class="card__description">
             <h3 class="card__name">Домбай</h3>
-            <button class="card__like"></button>
+            <button class="card__like" type="button"></button>
           </div>
         </div>
         <div class="card">
           <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="card__photo">
           <div class="card__description">
             <h3 class="card__name">Гора Эльбрус</h3>
-            <button class="card__like"></button>
+            <button class="card__like" type="button"></button>
           </div>
         </div>
         <div class="card">
           <img src="./images/dombai.jpg" alt="Домбай" class="card__photo">
           <div class="card__description">
             <h3 class="card__name">Домбай</h3>
-            <button class="card__like"></button>
+            <button class="card__like" type="button"></button>
           </div>
         </div>
         <div class="card">
           <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="card__photo">
           <div class="card__description">
             <h3 class="card__name">Карачаевск</h3>
-            <button class="card__like"></button>
+            <button class="card__like" type="button"></button>
           </div>
         </div>
       </section>
     </main>
     <footer class="footer">
-      <span class="footer__copyright">&copy; 2020 Mesto Russia</span>
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
+    <section class="popup">
+      <form class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input type="text" class="popup__input" value="Жак-Ив Кусто" name="name" placeholder="Введите имя">
+        <input type="text" class="popup__input" value="Исследователь океана" name="description"
+          placeholder="Напишите описание">
+        <button class="popup__button-save">Сохранить</button>
+        <button class="popup__button-close" type="button"></button>
+      </form>
+    </section>
   </div>
 </body>
+
 </html>

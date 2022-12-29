@@ -1,10 +1,13 @@
 .card__like {
+  background-color: none;
+  border: none;
+  outline: none;
   width: 22px;
   height: 19px;
   padding: 0;
-  border: none;
   background: transparent url(../../../images/like-button-disabled.svg) no-repeat;
   background-size: contain;
+  cursor: pointer;
 }
 
 .card__like:hover {
