@@ -8,6 +8,7 @@
   background: transparent url(../../../images/like-button-disabled.svg) no-repeat;
   background-size: contain;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .card__like:hover {

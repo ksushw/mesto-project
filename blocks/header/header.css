@@ -2,7 +2,7 @@
   max-width: 880px;
   width: calc(100% - 19px*2);
   min-height: 120px;
-  padding: 45px 19px 40px;
+  padding: 45px 0 37px;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(84, 84, 84, .7);
 }

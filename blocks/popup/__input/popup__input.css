@@ -1,5 +1,5 @@
 .popup__input {
-    padding: 13px 0 13px;
+    padding: 13px 0 8px;
     margin-bottom: 17px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, .2);
@@ -8,11 +8,11 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 1.21;
+    outline: none;
 }
 
 .popup__input:focus {
     padding-left: 10px;
-    outline: none;
 }
 
 .popup__input:last-of-type {
