@@ -3,4 +3,11 @@
   line-height: 0;
   aspect-ratio: 1/1;
   object-fit: cover;
+  cursor: pointer;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.card__photo:hover {
+  transform: scale(1.05) translateY(-2.75%);
 }

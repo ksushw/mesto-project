@@ -8,10 +8,4 @@
   background-color: #FFFFFF;
   position: relative;
   transition: 0.3s;
-  cursor: pointer;
-}
-
-.card:hover {
-  /* эффект */
-
 }

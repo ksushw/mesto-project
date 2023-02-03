@@ -44,36 +44,39 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <section class="popup popup_type_edit">
-    <div class="popup__container">
-      <form class="popup__form" name="edit-profile">
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__input popup__input_name" name="name" placeholder="Введите имя" required>
-        <input type="text" class="popup__input popup__input_job" name="description" placeholder="Напишите описание">
-        <button class="popup__button-save">Сохранить</button>
-        <button class="popup__button-close" type="button"></button>
-      </form>
+  <section class="popups">
+    <div class="popup popup_type_edit">
+      <div class="popup__container">
+        <form class="popup__form" name="edit-profile">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <input type="text" class="popup__input popup__input_name" name="name" placeholder="Введите имя" required>
+          <input type="text" class="popup__input popup__input_job" name="description" placeholder="Напишите описание">
+          <button class="popup__button-save">Сохранить</button>
+          <button class="popup__button-close" type="button"></button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_add">
+      <div class="popup__container">
+        <form class="popup__form popup__form_add" name="add-picture">
+          <h2 class="popup__title">Новое место</h2>
+          <input type="text" class="popup__input popup__input_place" name="name" placeholder="Название" required>
+          <input type="text" class="popup__input popup__input_url" name="description" placeholder="Ссылка на картинку"
+            required>
+          <button class="popup__button-save">Создать</button>
+          <button class="popup__button-close popup__button-close_add" type="button"></button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_img">
+      <div class="popup__container">
+        <img class="popup__image">
+        <button class="popup__button-close popup__button-close_img" type="button"></button>
+        <p class="popup__capture">ed</p>
+      </div>
     </div>
   </section>
-  <section class="popup popup_type_add">
-    <div class="popup__container">
-      <form class="popup__form popup__form_add" name="add-picture">
-        <h2 class="popup__title">Новое место</h2>
-        <input type="text" class="popup__input popup__input_place" name="name" placeholder="Название" required>
-        <input type="text" class="popup__input popup__input_url" name="description" placeholder="Ссылка на картинку"
-          required>
-        <button class="popup__button-save">Создать</button>
-        <button class="popup__button-close popup__button-close_add" type="button"></button>
-      </form>
-    </div>
-  </section>
-  <section class="popup popup_type_img">
-    <div class="popup__container">
-      <img class="popup__image">
-      <button class="popup__button-close popup__button-close_img" type="button"></button>
-      <p class="popup__capture">ed</p>
-    </div>
-  </section>
+  
   </div>
   <script src="script.js"></script>
 </body>
