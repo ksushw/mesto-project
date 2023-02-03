@@ -123,8 +123,9 @@ function renderCards() {
   for (let i = 0; i < cardList.length; i++) {
     addCard(cardList[i].name, cardList[i].link);
   }
-
 }
+
+renderCards();
 
 
 function handlerLike(like) {
