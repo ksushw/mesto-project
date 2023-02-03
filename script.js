@@ -119,9 +119,13 @@ function handleFormSubmitAdd(evt) {
 
 addForm.addEventListener('submit', handleFormSubmitAdd);
 
-for (let i = 0; i < cardList.length; i++) {
-  addCard(cardList[i].name, cardList[i].link);
+function renderCards() {
+  for (let i = 0; i < cardList.length; i++) {
+    addCard(cardList[i].name, cardList[i].link);
+  }
+
 }
+
 
 function handlerLike(like) {
   like.addEventListener('click', function (event) {
@@ -142,13 +146,6 @@ function handlerDeleteCard(deleteButton) {
 
 function deleteCard(card) {
   card.remove();
-}
-
-function handlerDeleteCard(deleteButton) {
-  deleteButton.addEventListener('click', function () {
-    const cardRemove = deleteButton.closest('.card')
-    deleteCard(cardRemove)
-  })
 }
 
 function togglePopupImg() {

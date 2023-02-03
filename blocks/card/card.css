@@ -1,4 +1,5 @@
 .card {
+  justify-self: center;
   border-radius: 10px;
   width: 100%;
   max-width: 282px;
