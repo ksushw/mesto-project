@@ -1,8 +1,17 @@
 .card {
   border-radius: 10px;
   width: 100%;
+  max-width: 282px;
   aspect-ratio: 1/1.28;
   line-height: 0;
   overflow: hidden;
   background-color: #FFFFFF;
+  position: relative;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  /* эффект */
+
 }
