@@ -75,23 +75,11 @@ function togglePopupAdd() {
   popupAdd.classList.toggle('popup_opened');
 }
 
-function removeValuePopupAdd() {
-  popupPlace.value = '';
-  popupPictire.value = '';
-}
-
 addButton.addEventListener('click', function () {
-  removeValuePopupAdd()
   togglePopupAdd();
 });
 
 popupButtonCloseAdd.addEventListener('click', togglePopupAdd);
-
-function addCardInArray(cardList, name, link) {
-  cardList.unshift({});
-  cardList[0].name = name;
-  cardList[0].link = link;
-}
 
 function addCard(name, link) {
   const cardTemplate = document.querySelector('#card-template').content;
@@ -103,8 +91,8 @@ function addCard(name, link) {
   cardElement.querySelector('.card__photo').src = link;
   cardElement.querySelector('.card__name').textContent = name;
 
-  handlerLike(like);
-  handlerDeleteCard(deleteButton);
+  handleLike(like);
+  handleDeleteCard(deleteButton);
   handleImgOpen(link, name, image);
 
   plases.prepend(cardElement);
@@ -112,8 +100,8 @@ function addCard(name, link) {
 
 function handleFormSubmitAdd(evt) {
   evt.preventDefault();
-  addCardInArray(cardList, popupPlace.value, popupPictire.value)
   addCard(popupPlace.value, popupPictire.value);
+  evt.target.reset();
   togglePopupAdd();
 }
 
@@ -128,7 +116,7 @@ function renderCards() {
 renderCards();
 
 
-function handlerLike(like) {
+function handleLike(like) {
   like.addEventListener('click', function (event) {
     like.classList.toggle('card__like_active')
   })
@@ -138,15 +126,11 @@ function deleteCard(card) {
   card.remove();
 }
 
-function handlerDeleteCard(deleteButton) {
+function handleDeleteCard(deleteButton) {
   deleteButton.addEventListener('click', function () {
     const cardRemove = deleteButton.closest('.card')
     deleteCard(cardRemove)
   })
-}
-
-function deleteCard(card) {
-  card.remove();
 }
 
 function togglePopupImg() {
@@ -161,9 +145,9 @@ function handleImgOpen(link, title, card) {
   })
 }
 
-function handlerClosePopupImg() {
+function handleClosePopupImg() {
   popupButtonCloseImg.addEventListener('click', togglePopupImg);
 }
 
-handlerClosePopupImg();
+handleClosePopupImg();
 
