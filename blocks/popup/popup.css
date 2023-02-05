@@ -26,9 +26,3 @@
   opacity: 0.9;
 }
 
-@media (max-width: 767px) {
-  .popup {
-    padding-left: 19px;
-    padding-right: 19px;
-  }
-}

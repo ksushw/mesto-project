@@ -1,115 +1,132 @@
 const profileEdit = document.querySelector('.profile__edit');
 const popupEdit = document.querySelector('.popup_type_edit');
-const popupButtonClose = document.querySelector('.popup__button-close');
+const closeButtons = document.querySelectorAll('.popup__button-close');
 
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__description');
-const formElement = document.querySelector('.popup__form');
+const profileForm = document.forms["edit-profile"];
 const nameInput = document.querySelector('.popup__input_name');
 const jobInput = document.querySelector('.popup__input_job');
 
 const popupAdd = document.querySelector('.popup_type_add');
 const addButton = document.querySelector('.profile__add');
 
-const addForm = document.querySelector('.popup__form_add');
+const addForm = document.forms["add-picture"];
 const popupPlace = document.querySelector('.popup__input_place');
 const popupPictire = document.querySelector('.popup__input_url');
-const popupButtonCloseAdd = document.querySelector('.popup__button-close_add');
 
 const plases = document.querySelector('.places')
 
+const popupImage = document.querySelector('.popup__image');
+const popupCapture = document.querySelector('.popup__capture');
+
 const popupImg = document.querySelector('.popup_type_img');
-const popupButtonCloseImg = document.querySelector('.popup__button-close_img');
+
+
 
 
 const cardList = [
   {
     name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+    alt: 'Склоны гор'
   },
   {
     name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+    alt: 'Зимняя речка'
   },
   {
     name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+    alt: 'Многоквартирные дома'
   },
   {
     name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+    alt: 'Равнина с растениями и гора'
   },
   {
     name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+    alt: 'Железнодорожная дорога сквозь лес'
   },
   {
     name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+    alt: 'Скалы на заснеженном побережье'
   }
 ];
 
-function togglePopupEdit() {
-  popupEdit.classList.toggle('popup_opened');
+function togglePopup(popup) {
+  popup.classList.toggle('popup_opened');
 }
 
 function openPopupEdit() {
-  togglePopupEdit();
+  togglePopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 }
 
 profileEdit.addEventListener('click', openPopupEdit);
-popupButtonClose.addEventListener('click', togglePopupEdit);
 
-function handleFormSubmit(evt) {
+closeButtons.forEach(function (button) {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', function(){
+    togglePopup(popup)
+  });
+});
+
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
-  togglePopupEdit();
+  togglePopup(popupEdit);
 }
 
-formElement.addEventListener('submit', handleFormSubmit);
-
-function togglePopupAdd() {
-  popupAdd.classList.toggle('popup_opened');
-}
+profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 addButton.addEventListener('click', function () {
-  togglePopupAdd();
+  togglePopup(popupAdd);
 });
 
-popupButtonCloseAdd.addEventListener('click', togglePopupAdd);
-
-function addCard(name, link) {
+function createCard(name, link, alt) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const like = cardElement.querySelector('.card__like');
   const deleteButton = cardElement.querySelector('.card__trash-can')
   const image = cardElement.querySelector('.card__photo');
+  const cardName = cardElement.querySelector('.card__name');
 
-  cardElement.querySelector('.card__photo').src = link;
-  cardElement.querySelector('.card__name').textContent = name;
+  image.src = link;
+  image.alt = alt;
+  cardName.textContent = name;
 
   handleLike(like);
   handleDeleteCard(deleteButton);
-  handleImgOpen(link, name, image);
+  handleImgOpen(link, name, image, alt);
+  return cardElement;
+}
 
+
+function addCard(name, link, alt) {
+  const cardElement = createCard(name, link, alt)
   plases.prepend(cardElement);
 }
 
-function handleFormSubmitAdd(evt) {
+
+function handleAddFormSubmit(evt) {
   evt.preventDefault();
   addCard(popupPlace.value, popupPictire.value);
   evt.target.reset();
-  togglePopupAdd();
+  togglePopup(popupAdd);
 }
 
-addForm.addEventListener('submit', handleFormSubmitAdd);
+addForm.addEventListener('submit', handleAddFormSubmit);
 
 function renderCards() {
   for (let i = 0; i < cardList.length; i++) {
-    addCard(cardList[i].name, cardList[i].link);
+    addCard(cardList[i].name, cardList[i].link, cardList[i].alt);
   }
 }
 
@@ -133,21 +150,11 @@ function handleDeleteCard(deleteButton) {
   })
 }
 
-function togglePopupImg() {
-  popupImg.classList.toggle('popup_opened');
-}
-
-function handleImgOpen(link, title, card) {
+function handleImgOpen(link, title, card, alt) {
   card.addEventListener('click', function () {
-    document.querySelector('.popup__image').src = link;
-    document.querySelector('.popup__capture').textContent = title;
-    togglePopupImg()
+    popupImage.src = link;
+    popupImage.alt = alt;
+    popupCapture.textContent = title;
+    togglePopup(popupImg)
   })
 }
-
-function handleClosePopupImg() {
-  popupButtonCloseImg.addEventListener('click', togglePopupImg);
-}
-
-handleClosePopupImg();
-
