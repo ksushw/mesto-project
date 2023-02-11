@@ -1,3 +1,4 @@
+const popups = document.querySelectorAll('.popup');
 const profileEdit = document.querySelector('.profile__edit');
 const popupEdit = document.querySelector('.popup_type_edit');
 const closeButtons = document.querySelectorAll('.popup__button-close');
@@ -58,6 +59,7 @@ const cardList = [
   }
 ];
 
+//Open popops
 function togglePopup(popup) {
   popup.classList.toggle('popup_opened');
 }
@@ -70,12 +72,23 @@ function openPopupEdit() {
 
 profileEdit.addEventListener('click', openPopupEdit);
 
-closeButtons.forEach(function (button) {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', function(){
-    togglePopup(popup)
-  });
-});
+popups.forEach(function (popup) {
+  popup.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('popup__button-close')||evt.target.classList.contains('popup')) {
+      togglePopup(popup)
+    }
+  })
+})
+
+document.addEventListener('keyup', function(evt){
+  if(evt.key==='Escape'){
+    const popupOpen = document.querySelector('.popup_opened');
+    if(popupOpen){
+      popupOpen.classList.remove('popup_opened')
+    }
+  }
+})
+
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -94,7 +107,6 @@ function createCard(name, link, alt) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const like = cardElement.querySelector('.card__like');
-  const deleteButton = cardElement.querySelector('.card__trash-can')
   const image = cardElement.querySelector('.card__photo');
   const cardName = cardElement.querySelector('.card__name');
 
@@ -102,9 +114,7 @@ function createCard(name, link, alt) {
   image.alt = alt;
   cardName.textContent = name;
 
-  handleLike(like);
-  handleDeleteCard(deleteButton);
-  handleImgOpen(link, name, image, alt);
+  handleCard(link, name, cardElement, alt, like);
   return cardElement;
 }
 
@@ -132,29 +142,24 @@ function renderCards() {
 
 renderCards();
 
-
-function handleLike(like) {
-  like.addEventListener('click', function (event) {
-    like.classList.toggle('card__like_active')
-  })
-};
-
 function deleteCard(card) {
   card.remove();
 }
 
-function handleDeleteCard(deleteButton) {
-  deleteButton.addEventListener('click', function () {
-    const cardRemove = deleteButton.closest('.card')
-    deleteCard(cardRemove)
-  })
-}
-
-function handleImgOpen(link, title, card, alt) {
-  card.addEventListener('click', function () {
-    popupImage.src = link;
-    popupImage.alt = alt;
-    popupCapture.textContent = title;
-    togglePopup(popupImg)
+function handleCard(link, title, card, alt, like) {
+  card.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('card__photo')) {
+      popupImage.src = link;
+      popupImage.alt = alt;
+      popupCapture.textContent = title;
+      togglePopup(popupImg)
+    }
+    else if (evt.target.classList.contains('card__like')) {
+      like.classList.toggle('card__like_active')
+    }
+    else if (evt.target.classList.contains('card__trash-can')) {
+      const cardRemove = evt.target.closest('.card')
+      deleteCard(cardRemove)
+    }
   })
 }
