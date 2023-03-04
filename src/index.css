@@ -5,14 +5,18 @@
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__container/popup__container.css);
-@import url(../blocks/popup/__form/popup__form.css);
-@import url(../blocks/popup/__title/popup__title.css);
-@import url(../blocks/popup/__input/popup__input.css);
-@import url(../blocks/popup/__button-save/popup__button-save.css);
-@import url(../blocks/popup/__button-close/popup__button-close.css);
-@import url(../blocks/popup/_type/_type_img/popup_type_img.css);
+@import url(../blocks/popup/_type/_img/popup_type_img.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__capture/popup__capture.css);
+@import url(../blocks/popup/__button-close/popup__button-close.css);
+@import url(./../blocks/form/form.css);
+@import url(./../blocks/form/__title/form__title.css);
+@import url(./../blocks/form/__input/form__input.css);
+@import url(./../blocks/form/__button-save/form__button-save.css);
+@import url(./../blocks/form/_field/form_field.css);
+@import url(./../blocks/form/__input-error/form____input-error.css);
+@import url(./../blocks/form/__input/_type/form__input_type_error.css);
+@import url(../blocks/button/_inactive/button_inactive.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/page/page.css);
@@ -33,29 +37,3 @@
 @import url(../blocks/card/__like/card__like.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
-
-.form__field {
-    display: flex;
-    flex-direction: column;
-}
-
-.form__input-error {
-    min-height: 15px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 15px;
-    color: #FF0000;
-
-}
-
-.form__input_type_error {
-    border-bottom: 1px solid #FF0000;
-}
-
-
-.button_inactive {
-    border: 1px solid #C4C4C4;
-    background-color: #fff;
-    color: #C4C4C4;
-}

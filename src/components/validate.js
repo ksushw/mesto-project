@@ -14,7 +14,7 @@ const hideInputError = ((formElement, inputElement) => {
 
 const checkInputValidity = ((formElement, inputElement) => {
     if (inputElement.validity.patternMismatch) {
-        inputElement.setCustomValidity('Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы.');
+        inputElement.setCustomValidity(inputElement.dataset.errorMessage);
     } else {
         inputElement.setCustomValidity('');
     }
@@ -34,19 +34,21 @@ const hasInvalidInput = ((inputList) => {
 
 const enableButton = ((inputList, button) => {
     if (hasInvalidInput(inputList)) {
+        button.setAttribute('disabled', true)
         button.classList.add('button_inactive')
     } else {
+        button.removeAttribute('disabled')
         button.classList.remove('button_inactive')
     }
 })
 
 const setEventListeners = ((formElement) => {
-    const inputList = Array.from(formElement.querySelectorAll('.popup__input'))
-    const button = formElement.querySelector('.popup__button-save')
+    const inputList = Array.from(formElement.querySelectorAll('.form__input'))
+    const button = formElement.querySelector('.form__button-save')
     enableButton(inputList, button)
 
-    inputList.forEach(function (input) {//maybe there is error function report
-        input.addEventListener('change', () => {
+    inputList.forEach(function (input) {
+        input.addEventListener('input', () => {
             checkInputValidity(formElement, input);
             enableButton(inputList, button)
         })
@@ -54,7 +56,7 @@ const setEventListeners = ((formElement) => {
 })
 
 const enableValidation = (() => {
-    const forms = Array.from(document.querySelectorAll('.popup__form'))
+    const forms = Array.from(document.querySelectorAll('.form'))
     forms.forEach((form) => {
         setEventListeners(form)
     })

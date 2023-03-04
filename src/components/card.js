@@ -1,4 +1,6 @@
+import { togglePopup } from './utils'
 
+const popupAdd = document.querySelector('.popup_type_add');
 
 const cardList = [
     {
@@ -63,8 +65,8 @@ const addCard = ((name, link, alt) => {
 const handleAddFormSubmit = ((evt) => {
     evt.preventDefault();
 
-    const popupPlace = document.querySelector('.popup__input_place');
-    const popupPictire = document.querySelector('.popup__input_url');
+    const popupPlace = document.querySelector('.form__input_place');
+    const popupPictire = document.querySelector('.form__input_url');
 
     addCard(popupPlace.value, popupPictire.value);
     evt.target.reset();
@@ -108,4 +110,7 @@ const handleImgOpen = ((link, title, card, alt) => {
     })
 })
 
-export { createCard, addCard, handleAddFormSubmit, renderCards, handleLike, deleteCard, handleDeleteCard, handleImgOpen }
+export {
+    popupAdd,
+    createCard, addCard, handleAddFormSubmit, renderCards, handleLike, deleteCard, handleDeleteCard, handleImgOpen
+}

@@ -1,25 +1,39 @@
+import { togglePopup } from './utils'
+
 const popupEdit = document.querySelector('.popup_type_edit');
 const closeButtons = document.querySelectorAll('.popup__button-close');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__description');
-const nameInput = document.querySelector('.popup__input_name');
-const jobInput = document.querySelector('.popup__input_job');
+const nameInput = document.querySelector('.form__input_name');
+const jobInput = document.querySelector('.form__input_job');
 
-const togglePopup = ((popup) => {
-    popup.classList.toggle('popup_opened');
-})  
-const openPopupEdit = (() => {
-    togglePopup(popupEdit);
+const setProfileDataInInpur = (() => {
     nameInput.value = profileName.textContent;
     jobInput.value = profileJob.textContent;
 })
 
-const popupCloseHandler = (function()  {closeButtons.forEach(function (button) {
-    const popup = button.closest('.popup');
-    button.addEventListener('click', function () {
-        togglePopup(popup)
-    });
-})})//question
+const setDisableButton = ((form) => {
+    const button = form.querySelector('.form__button-save');
+    button.setAttribute('disabled', true);
+    button.classList.add('button_inactive');
+})
+
+const openPopupEdit = (() => {
+    setDisableButton(popupEdit)
+    document.querySelector('.name-input-error').textContent = ''
+    document.querySelector('.text-input-error').textContent = ''
+    togglePopup(popupEdit);
+    setProfileDataInInpur();
+})
+
+const popupCloseHandler = (function () {
+    closeButtons.forEach(function (button) {
+        const popup = button.closest('.popup');
+        button.addEventListener('click', function () {
+            togglePopup(popup)
+        });
+    })
+})
 
 const handleProfileFormSubmit = ((evt) => {
     evt.preventDefault();
@@ -29,4 +43,4 @@ const handleProfileFormSubmit = ((evt) => {
 })
 
 
-export { openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
+export { setDisableButton, setProfileDataInInpur, togglePopup, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }

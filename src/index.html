@@ -46,39 +46,44 @@
   <section class="popups">
     <div class="popup popup_type_edit">
       <div class="popup__container">
-        <form class="popup__form" name="edit-profile" novalidate>
-          <h2 class="popup__title">Редактировать профиль</h2>
-
+        <form class="form" name="edit-profile" novalidate>
+          <h2 class="form__title">Редактировать профиль</h2>
           <label class="form__field">
-            <input type="text" class="popup__input popup__input_name" id="name-input" name="name" placeholder="Введите имя" minlength="2" maxlength="40" pattern="^[a-zA-Z\s-]+" required>
+            <input type="text" class="form__input form__input_name" id="name-input" name="name"
+              placeholder="Введите имя" minlength="2" maxlength="40" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+              data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+              required>
             <span class="form__input-error name-input-error"></span>
           </label>
-
-          <label  class="form__field">
-            <input type="text" class="popup__input popup__input_job" id="text-input" name="description" placeholder="Напишите описание" minlength="2" maxlength="200" pattern="^[a-zA-Z\s-]+" required>
+          <label class="form__field">
+            <input type="text" class="form__input form__input_job" id="text-input" name="description"
+              placeholder="Напишите описание" minlength="2" maxlength="200" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+              data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+              required>
             <span class="form__input-error text-input-error"></span>
           </label>
-
-          <button class="popup__button-save">Сохранить</button>
+          <button class="form__button-save">Сохранить</button>
           <button class="popup__button-close" type="button"></button>
         </form>
       </div>
     </div>
     <div class="popup popup_type_add">
       <div class="popup__container">
-        <form class="popup__form popup__form_add" name="add-picture" novalidate>
-          <h2 class="popup__title">Новое место</h2>
+        <form class="form form_add" name="add-picture" novalidate>
+          <h2 class="form__title">Новое место</h2>
           <label class="form__field">
-            <input type="text" class="popup__input popup__input_place" id="title-input" name="name" placeholder="Название" minlength="2" maxlength="30" pattern="^[a-zA-Z\s-]+" required>
+            <input type="text" class="form__input form__input_place" id="title-input" name="name" placeholder="Название"
+              minlength="2" maxlength="30" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+              data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+              required>
             <span class="form__input-error title-input-error"></span>
           </label>
-
           <label class="form__field">
-            <input type="url" class="popup__input popup__input_url" id="url-input" name="description" placeholder="Ссылка на картинку" required>
+            <input type="url" class="form__input form__input_url" id="url-input" name="description"
+              placeholder="Ссылка на картинку" required>
             <span class="form__input-error url-input-error"></span>
           </label>
-          
-          <button class="popup__button-save">Создать</button>
+          <button class="form__button-save">Создать</button>
           <button class="popup__button-close" type="button"></button>
         </form>
       </div>
@@ -87,13 +92,13 @@
       <div class="popup__container">
         <img class="popup__image" alt="Фотография красивого места в большом разрешении">
         <button class="popup__button-close" type="button"></button>
-        <p class="popup__capture">ed</p>
+        <p class="popup__capture"></p>
       </div>
     </div>
   </section>
-  
+
   </div>
-  
+
 </body>
 
 </html>
