@@ -42,5 +42,23 @@ const handleProfileFormSubmit = ((evt) => {
     togglePopup(popupEdit);
 })
 
+const closePopupKaydowAndOverlay = (() => {
+    document.addEventListener('keydown', function (evt) {
+        const openPopup = document.querySelector('.popup_opened')
+        if (evt.keyCode === 27 && openPopup) {
+            openPopup.classList.remove('popup_opened');
+        }
+    })
+    const overlays = Array.from(document.querySelectorAll('.popup__overlay'))
+    overlays.forEach((overlay) => {
+        overlay.addEventListener('click', () => {
+            const openPopup = document.querySelector('.popup_opened')
+            openPopup.classList.remove('popup_opened');
+        })
 
-export { setDisableButton, setProfileDataInInpur, togglePopup, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
+    })
+
+
+})
+
+export { closePopupKaydowAndOverlay, setDisableButton, setProfileDataInInpur, togglePopup, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }

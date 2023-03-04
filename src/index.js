@@ -1,7 +1,7 @@
 import './../src/index.css'
 import { togglePopup } from './components/utils'
 import { popupAdd, handleAddFormSubmit, renderCards } from './components/card'
-import { setDisableButton, setProfileDataInInpur, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
+import { closePopupKaydowAndOverlay, setDisableButton, setProfileDataInInpur, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
 import { enableValidation } from './components/validate'
 
 
@@ -18,26 +18,6 @@ addButton.addEventListener('click', function () {
     togglePopup(popupAdd);
     setDisableButton(popupAdd)
 });
-
-
-const closePopupKaydowAndOverlay = (() => {
-    document.addEventListener('keydown', function (evt) {
-        const openPopup = document.querySelector('.popup_opened')
-        if (evt.keyCode === 27 && openPopup) {
-            openPopup.classList.remove('popup_opened');
-        }
-    })
-    const overlays = Array.from(document.querySelectorAll('.popup__overlay'))
-    overlays.forEach((overlay) => {
-        overlay.addEventListener('click', () => {
-            const openPopup = document.querySelector('.popup_opened')
-            openPopup.classList.remove('popup_opened');
-        })
-
-    })
-
-
-})
 
 closePopupKaydowAndOverlay()
 
