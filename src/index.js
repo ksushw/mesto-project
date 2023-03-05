@@ -1,8 +1,8 @@
-import './../src/index.css'
-import { togglePopup } from './components/utils'
+import './../pages/index.css'
+import { openPopup, closePopup } from './components/utils'
 import { popupAdd, handleAddFormSubmit, renderCards } from './components/card'
-import { closePopupKaydowAndOverlay, setDisableButton, setProfileDataInInpur, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
-import { enableValidation } from './components/validate'
+import {  handleOpenPopup, setProfileDataInInpur, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
+import { enableValidation, setDisableButton } from './components/validate'
 
 
 const profileEdit = document.querySelector('.profile__edit');
@@ -15,11 +15,11 @@ profileEdit.addEventListener('click', openPopupEdit);
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 addButton.addEventListener('click', function () {
-    togglePopup(popupAdd);
-    setDisableButton(popupAdd)
+    handleOpenPopup(popupAdd);
+    setDisableButton(popupAdd);
 });
  
-closePopupKaydowAndOverlay()
+
 
 
 addForm.addEventListener('submit', handleAddFormSubmit);
@@ -30,5 +30,5 @@ popupCloseHandler()
 
 renderCards();
 
-enableValidation();
+// enableValidation();
 

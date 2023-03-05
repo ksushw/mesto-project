@@ -1,6 +1,11 @@
-import { togglePopup } from './utils'
+import { openPopup, closePopup } from './utils'
+import { handleOpenPopup, handleClosePopup } from './modal'
+
 
 const popupAdd = document.querySelector('.popup_type_add');
+const popupImage = document.querySelector('.popup__image');
+const popupCapture = document.querySelector('.popup__capture');
+const popupImg = document.querySelector('.popup_type_img');
 
 const cardList = [
     {
@@ -70,7 +75,7 @@ const handleAddFormSubmit = ((evt) => {
 
     addCard(popupPlace.value, popupPictire.value);
     evt.target.reset();
-    togglePopup(popupAdd);
+    handleClosePopup(popupAdd);
 })
 
 const renderCards = (() => {
@@ -98,15 +103,11 @@ const handleDeleteCard = ((deleteButton) => {
 })
 
 const handleImgOpen = ((link, title, card, alt) => {
-    const popupImage = document.querySelector('.popup__image');
-    const popupCapture = document.querySelector('.popup__capture');
-    const popupImg = document.querySelector('.popup_type_img');
-
     card.addEventListener('click', function () {
         popupImage.src = link;
         popupImage.alt = alt;
         popupCapture.textContent = title;
-        togglePopup(popupImg)
+        handleOpenPopup(popupImg)
     })
 })
 

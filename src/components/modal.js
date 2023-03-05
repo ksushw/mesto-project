@@ -1,4 +1,5 @@
-import { togglePopup } from './utils'
+import { openPopup, closePopup } from './utils'
+import { setDisableButton, hideInputError, formSelectors } from './validate'
 
 const popupEdit = document.querySelector('.popup_type_edit');
 const closeButtons = document.querySelectorAll('.popup__button-close');
@@ -12,53 +13,85 @@ const setProfileDataInInpur = (() => {
     jobInput.value = profileJob.textContent;
 })
 
-const setDisableButton = ((form) => {
-    const button = form.querySelector('.form__button-save');
-    button.setAttribute('disabled', true);
-    button.classList.add('button_inactive');
+const closeByEsc = ((evt) => {
+    if (evt.keyCode === 27 && openPopup) {
+        const openPopup = document.querySelector('.popup_opened')
+        handleClosePopup(openPopup)
+    }
+})
+  //оТКРЫВАЕТ ПОПАП, БЛОКИРУЕТ КНОПКУ ОТПРАВКИ, ВЕШАЕТ СЛУШАТЕЛИ ЗАКРЫТИЯ
+const handleOpenPopup = ((popup)=>{
+    openPopup(popup)
+    const openedPopup = document.querySelector('.popup_opened');
+    const overlay = openedPopup.querySelector('.popup__overlay');
+    document.addEventListener('keyup', closeByEsc);
+    overlay.addEventListener('click', handlerEventListenerOverlay);
 })
 
+function handlerEventListenerOverlay() {
+    const openedPopup = document.querySelector('.popup_opened');
+    handleClosePopup(openedPopup)
+}
+
+//ОТРЫТЬ ОКНО ПРОФИЛЯ, УБИРАЕТ ОКНА ОШИБКИ, ВСТАВЛЯЕТ ИМЯ И ОПИСАНИЕ 
+//В МОДАЛЬНЫЕ ОКНА
 const openPopupEdit = (() => {
-    setDisableButton(popupEdit)
-    document.querySelector('.name-input-error').textContent = ''
-    document.querySelector('.text-input-error').textContent = ''
-    togglePopup(popupEdit);
+    handleOpenPopup(popupEdit)
+     setDisableButton(popupEdit);
+    const inputsPopupEdit = Array.from(popupEdit.querySelectorAll('.form__input'))
+    inputsPopupEdit.forEach((input) => {
+        hideInputError(popupEdit, input, formSelectors);
+    })
     setProfileDataInInpur();
 })
 
+const handleClosePopup = ((popup)=>{
+    const openedPopup = document.querySelector('.popup_opened');
+    const overlay = openedPopup.querySelector('.popup__overlay');
+    document.removeEventListener('keyup', closeByEsc)
+    overlay.removeEventListener('click', handlerEventListenerOverlay);
+    closePopup(popup);
+})
+
+//ЦИКЛОМ НАВЕШИВАЕТ СЛУШАТЕЛИ СОБЫТИЙ И УДАЛЯЕТ БЛИЖАЙШИЙ ПОПАП
 const popupCloseHandler = (function () {
     closeButtons.forEach(function (button) {
         const popup = button.closest('.popup');
         button.addEventListener('click', function () {
-            togglePopup(popup)
+            handleClosePopup(popup)
+
         });
     })
 })
 
+//УСТАНАВЛИВАЕТ ИМЯ ПОЛЬЗОВАТЕЛЯ И ОПИСАНИЕ, ЗАКРЫВАЕТ ПОПАП
 const handleProfileFormSubmit = ((evt) => {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
-    togglePopup(popupEdit);
+    handleClosePopup(popupEdit);
 })
 
-const closePopupKaydowAndOverlay = (() => {
-    document.addEventListener('keydown', function (evt) {
-        const openPopup = document.querySelector('.popup_opened')
-        if (evt.keyCode === 27 && openPopup) {
-            openPopup.classList.remove('popup_opened');
-        }
-    })
-    const overlays = Array.from(document.querySelectorAll('.popup__overlay'))
-    overlays.forEach((overlay) => {
-        overlay.addEventListener('click', () => {
-            const openPopup = document.querySelector('.popup_opened')
-            openPopup.classList.remove('popup_opened');
-        })
-
-    })
 
 
-})
 
-export { closePopupKaydowAndOverlay, setDisableButton, setProfileDataInInpur, togglePopup, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
+// const closePopupKaydowAndOverlay = (() => {
+//     document.addEventListener('keydown', function (evt) {
+//         const openPopup = document.querySelector('.popup_opened')
+//         if (evt.keyCode === 27 && openPopup) {
+//             openPopup.classList.remove('popup_opened');
+//         }
+//     })
+//     const overlays = Array.from(document.querySelectorAll('.popup__overlay'))
+//     overlays.forEach((overlay) => {
+//         overlay.addEventListener('click', () => {
+//             const openPopup = document.querySelector('.popup_opened')
+//             openPopup.classList.remove('popup_opened');
+//         })
+
+//     })
+
+
+// })
+
+export {  handleOpenPopup, handleClosePopup, setProfileDataInInpur, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
