@@ -1,9 +1,26 @@
 import './../pages/index.css'
+import { getInitialCards, getUserInfo } from '../api'
 import { openPopup, closePopup } from './components/utils'
 import { popupAdd, handleAddFormSubmit, renderCards } from './components/card'
-import {  handleOpenPopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
+import { profileName, profileJob, handleOpenPopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
 import { enableValidation, setDisableButton } from './components/validate'
 
+
+const profilePicture = document.querySelector('.profile__photo')
+
+getUserInfo()
+    .then((userInfo) => {
+        profileName.textContent = userInfo.name;
+        profileJob.textContent = userInfo.about;
+        profilePicture.src = userInfo.avatar;
+    })
+
+
+getInitialCards()
+    .then((cards) => {
+        renderCards(cards)
+
+    })
 
 const profileEdit = document.querySelector('.profile__edit');
 const profileForm = document.forms["edit-profile"];
@@ -18,7 +35,7 @@ addButton.addEventListener('click', function () {
     handleOpenPopup(popupAdd);
     setDisableButton(popupAdd);
 });
- 
+
 
 
 
@@ -28,7 +45,7 @@ setProfileDataInInput()
 
 popupCloseHandler()
 
-renderCards();
+
 
 // enableValidation();
 

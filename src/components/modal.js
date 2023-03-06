@@ -93,4 +93,4 @@ const handleProfileFormSubmit = ((evt) => {
 
 // })
 
-export {  handleOpenPopup, handleClosePopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
+export {  profileName, profileJob, handleOpenPopup, handleClosePopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }

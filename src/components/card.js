@@ -9,33 +9,15 @@ const popupImg = document.querySelector('.popup_type_img');
 const popupPlace = document.querySelector('.form__input_place');
 const popupPictire = document.querySelector('.form__input_url');
 
-const cardList = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+fetch('https://nomoreparties.co/v1/plus-cohort-21/cards', {
+    headers: {
+        authorization: '6fc36c5b-30c6-4228-accb-664772d22e4e'
     }
-];
-
+})
+    .then(res => res.json())
+    .then((result) => {
+       const cardList = result;
+    });
 
 const createCard = ((name, link) => {
     const cardTemplate = document.querySelector('#card-template').content;
@@ -70,9 +52,9 @@ const handleAddFormSubmit = ((evt) => {
     handleClosePopup(popupAdd);
 })
 
-const renderCards = (() => {
+const renderCards = ((cardList) => {
     for (let i = 0; i < cardList.length; i++) {
-        addCard(cardList[i].name, cardList[i].link, cardList[i].name);
+        addCard(cardList[i].name, cardList[i].link);
     }
 })
 
