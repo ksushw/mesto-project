@@ -1,6 +1,6 @@
 import { openPopup, closePopup } from './utils'
 import { handleOpenPopup, handleClosePopup } from './modal'
-
+import { addCardInServer } from '../../api'
 
 const popupAdd = document.querySelector('.popup_type_add');
 const popupImage = document.querySelector('.popup__image');
@@ -9,15 +9,7 @@ const popupImg = document.querySelector('.popup_type_img');
 const popupPlace = document.querySelector('.form__input_place');
 const popupPictire = document.querySelector('.form__input_url');
 
-fetch('https://nomoreparties.co/v1/plus-cohort-21/cards', {
-    headers: {
-        authorization: '6fc36c5b-30c6-4228-accb-664772d22e4e'
-    }
-})
-    .then(res => res.json())
-    .then((result) => {
-       const cardList = result;
-    });
+
 
 const createCard = ((name, link) => {
     const cardTemplate = document.querySelector('#card-template').content;
@@ -47,12 +39,16 @@ const addCard = ((name, link) => {
 
 const handleAddFormSubmit = ((evt) => {
     evt.preventDefault();
-    addCard(popupPlace.value, popupPictire.value);
-    evt.target.reset();
-    handleClosePopup(popupAdd);
+    addCardInServer(popupPlace.value, popupPictire.value)
+    .then((card) => {
+        addCard(card.name, card.link)
+        evt.target.reset();
+        handleClosePopup(popupAdd);
+    })
 })
 
 const renderCards = ((cardList) => {
+    cardList = cardList.reverse()
     for (let i = 0; i < cardList.length; i++) {
         addCard(cardList[i].name, cardList[i].link);
     }

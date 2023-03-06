@@ -1,5 +1,6 @@
 import { openPopup, closePopup } from './utils'
 import { setDisableButton, hideInputError, formSelectors } from './validate'
+import { editUserInfo } from '../../api'
 
 const popupEdit = document.querySelector('.popup_type_edit');
 const closeButtons = document.querySelectorAll('.popup__button-close');
@@ -19,8 +20,8 @@ const closeByEsc = ((evt) => {
         handleClosePopup(openPopup)
     }
 })
-  //оТКРЫВАЕТ ПОПАП, БЛОКИРУЕТ КНОПКУ ОТПРАВКИ, ВЕШАЕТ СЛУШАТЕЛИ ЗАКРЫТИЯ
-const handleOpenPopup = ((popup)=>{
+//оТКРЫВАЕТ ПОПАП, БЛОКИРУЕТ КНОПКУ ОТПРАВКИ, ВЕШАЕТ СЛУШАТЕЛИ ЗАКРЫТИЯ
+const handleOpenPopup = ((popup) => {
     openPopup(popup)
     const overlay = popup.querySelector('.popup__overlay');
     document.addEventListener('keyup', closeByEsc);
@@ -36,7 +37,7 @@ function handlerEventListenerOverlay() {
 //В МОДАЛЬНЫЕ ОКНА
 const openPopupEdit = (() => {
     handleOpenPopup(popupEdit)
-     setDisableButton(popupEdit);
+    setDisableButton(popupEdit);
     const inputsPopupEdit = Array.from(popupEdit.querySelectorAll('.form__input'))
     inputsPopupEdit.forEach((input) => {
         hideInputError(popupEdit, input, formSelectors);
@@ -44,7 +45,7 @@ const openPopupEdit = (() => {
     setProfileDataInInput();
 })
 
-const handleClosePopup = ((popup)=>{
+const handleClosePopup = ((popup) => {
     const openedPopup = document.querySelector('.popup_opened');
     const overlay = openedPopup.querySelector('.popup__overlay');
     document.removeEventListener('keyup', closeByEsc)
@@ -66,9 +67,12 @@ const popupCloseHandler = (function () {
 //УСТАНАВЛИВАЕТ ИМЯ ПОЛЬЗОВАТЕЛЯ И ОПИСАНИЕ, ЗАКРЫВАЕТ ПОПАП
 const handleProfileFormSubmit = ((evt) => {
     evt.preventDefault();
-    profileName.textContent = nameInput.value;
-    profileJob.textContent = jobInput.value;
-    handleClosePopup(popupEdit);
+    editUserInfo(nameInput.value, jobInput.value)
+        .then((userInfo) => {
+            profileName.textContent = userInfo.name;
+            profileJob.textContent = userInfo.about;
+            handleClosePopup(popupEdit);
+        })
 })
 
 
@@ -93,4 +97,4 @@ const handleProfileFormSubmit = ((evt) => {
 
 // })
 
-export {  profileName, profileJob, handleOpenPopup, handleClosePopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
+export { profileName, profileJob, handleOpenPopup, handleClosePopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
