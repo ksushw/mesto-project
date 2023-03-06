@@ -8,7 +8,7 @@ const profileJob = document.querySelector('.profile__description');
 const nameInput = document.querySelector('.form__input_name');
 const jobInput = document.querySelector('.form__input_job');
 
-const setProfileDataInInpur = (() => {
+const setProfileDataInInput = (() => {
     nameInput.value = profileName.textContent;
     jobInput.value = profileJob.textContent;
 })
@@ -22,8 +22,7 @@ const closeByEsc = ((evt) => {
   //оТКРЫВАЕТ ПОПАП, БЛОКИРУЕТ КНОПКУ ОТПРАВКИ, ВЕШАЕТ СЛУШАТЕЛИ ЗАКРЫТИЯ
 const handleOpenPopup = ((popup)=>{
     openPopup(popup)
-    const openedPopup = document.querySelector('.popup_opened');
-    const overlay = openedPopup.querySelector('.popup__overlay');
+    const overlay = popup.querySelector('.popup__overlay');
     document.addEventListener('keyup', closeByEsc);
     overlay.addEventListener('click', handlerEventListenerOverlay);
 })
@@ -42,7 +41,7 @@ const openPopupEdit = (() => {
     inputsPopupEdit.forEach((input) => {
         hideInputError(popupEdit, input, formSelectors);
     })
-    setProfileDataInInpur();
+    setProfileDataInInput();
 })
 
 const handleClosePopup = ((popup)=>{
@@ -94,4 +93,4 @@ const handleProfileFormSubmit = ((evt) => {
 
 // })
 
-export {  handleOpenPopup, handleClosePopup, setProfileDataInInpur, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }
+export {  handleOpenPopup, handleClosePopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit }

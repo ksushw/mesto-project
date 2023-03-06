@@ -1,7 +1,7 @@
 import './../pages/index.css'
 import { openPopup, closePopup } from './components/utils'
 import { popupAdd, handleAddFormSubmit, renderCards } from './components/card'
-import {  handleOpenPopup, setProfileDataInInpur, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
+import {  handleOpenPopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit } from './components/modal'
 import { enableValidation, setDisableButton } from './components/validate'
 
 
@@ -24,7 +24,7 @@ addButton.addEventListener('click', function () {
 
 addForm.addEventListener('submit', handleAddFormSubmit);
 
-setProfileDataInInpur()
+setProfileDataInInput()
 
 popupCloseHandler()
 
