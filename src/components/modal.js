@@ -35,8 +35,6 @@ function handlerEventListenerOverlay() {
     handleClosePopup(openedPopup)
 }
 
-//ОТРЫТЬ ОКНО ПРОФИЛЯ, УБИРАЕТ ОКНА ОШИБКИ, ВСТАВЛЯЕТ ИМЯ И ОПИСАНИЕ 
-//В МОДАЛЬНЫЕ ОКНА
 const openPopupEdit = (() => {
     handleOpenPopup(popupEdit)
     setDisableButton(popupEdit);
@@ -56,7 +54,7 @@ const editAvatar = ((evt) => {
             handleClosePopup(popupAvatar);
         })
         .catch((err) => {
-            console.log(err); // выводим ошибку в консоль
+            console.log(err); 
           });
 })
 
@@ -68,7 +66,6 @@ const handleClosePopup = ((popup) => {
     closePopup(popup);
 })
 
-//ЦИКЛОМ НАВЕШИВАЕТ СЛУШАТЕЛИ СОБЫТИЙ И УДАЛЯЕТ БЛИЖАЙШИЙ ПОПАП
 const popupCloseHandler = (function () {
     closeButtons.forEach(function (button) {
         const popup = button.closest('.popup');
@@ -79,7 +76,6 @@ const popupCloseHandler = (function () {
     })
 })
 
-//УСТАНАВЛИВАЕТ ИМЯ ПОЛЬЗОВАТЕЛЯ И ОПИСАНИЕ, ЗАКРЫВАЕТ ПОПАП
 const handleProfileFormSubmit = ((evt) => {
     setWaitingButton(popupEdit);
     evt.preventDefault();
@@ -93,7 +89,6 @@ const handleProfileFormSubmit = ((evt) => {
             console.log(err); 
           });
 })
-
 
 const setWaitingButton = ((popup)=>{
     const button = popup.querySelector('.form__button-save')

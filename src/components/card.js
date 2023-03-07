@@ -10,8 +10,6 @@ const popupImg = document.querySelector('.popup_type_img');
 const popupPlace = document.querySelector('.form__input_place');
 const popupPictire = document.querySelector('.form__input_url');
 
-
-
 const createCard = ((name, link, card) => {
     const cardTemplate = document.querySelector('#card-template').content;
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
@@ -21,7 +19,7 @@ const createCard = ((name, link, card) => {
     const image = cardElement.querySelector('.card__photo');
     const cardName = cardElement.querySelector('.card__name');
 
-    if (!(card.owner._id === 'd6c51c0a7f42d519a6ab9e2b')) {
+    if (!(card.owner._id === userId)) {
         deleteButton.remove();
     }
 
@@ -34,7 +32,7 @@ const createCard = ((name, link, card) => {
     if (card.likes.length) {
         countLikes.textContent = card.likes.length;
         card.likes.forEach(user => {
-            if (user._id === 'd6c51c0a7f42d519a6ab9e2b') {
+            if (user._id === userId) {
                 like.classList.add('card__button-like_active');
             }
         });
@@ -53,7 +51,6 @@ const addCard = ((name, link, card) => {
     const cardElement = createCard(name, link, card)
     places.prepend(cardElement);
 })
-
 
 const handleAddFormSubmit = ((evt) => {
     evt.preventDefault(evt);

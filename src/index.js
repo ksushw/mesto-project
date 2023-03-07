@@ -8,8 +8,7 @@ import { enableValidation, setDisableButton, formSelectors } from './components/
 
 
 
-const userId = 5
-
+let userId = '';
 const profileEdit = document.querySelector('.profile__edit');
 const profileForm = document.forms["edit-profile"];
 const addButton = document.querySelector('.profile__add');
@@ -29,6 +28,7 @@ getUserInfo()
         profileName.textContent = userInfo.name;
         profileJob.textContent = userInfo.about;
         profilePicture.src = userInfo.avatar;
+        userId = userInfo._id;
     })
     .catch((err) => {
         console.log(err); 
