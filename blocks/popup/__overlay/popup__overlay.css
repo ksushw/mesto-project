@@ -1,0 +1,14 @@
+.popup__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    opacity: 0.9;
+    width: 100%;
+    height: 100%;
+  }
+
+  .popup__overlay-img{
+    opacity: 0.9;
+  }
+  
