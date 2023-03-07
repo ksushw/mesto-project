@@ -16,7 +16,11 @@
     </header>
     <main class="main">
       <section class="profile">
-        <img alt="Фото профиля" class="profile__photo">
+        <div class="profile__photo">
+          <img alt="Фото профиля" class="profile__photo-img">
+          <img src="<%=require('../images/pencil-edit.png')%>" class="profile__edit-pencil">
+        </div>
+        
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__description">Исследователь океана</p>
@@ -31,7 +35,10 @@
             <img src="<%=require('./../images/trash-can.svg')%>" class="card__trash-can">
             <div class="card__description">
               <h3 class="card__name"></h3>
-              <button class="card__like" type="button"></button>
+              <div class="card__likes">
+                <button class="card__button-like" type="button"></button>
+                <span class="card__amount-likes"></span>
+              </div>
             </div>
         </template>
 
@@ -43,62 +50,76 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <section class="popups">
-    <div class="popup popup_type_edit">
-      <div class="popup__container">
-        <form class="form" name="edit-profile" novalidate>
-          <h2 class="form__title">Редактировать профиль</h2>
-          <label class="form__field">
-            <input type="text" class="form__input form__input_name" id="name-input" name="name"
-              placeholder="Введите имя" minlength="2" maxlength="40" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
-              data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
-              required>
-            <span class="form__input-error name-input-error"></span>
-          </label>
-          <label class="form__field">
-            <input type="text" class="form__input form__input_job" id="text-input" name="description"
-              placeholder="Напишите описание" minlength="2" maxlength="200" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
-              data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
-              required>
-            <span class="form__input-error text-input-error"></span>
-          </label>
-          <button class="form__button-save">Сохранить</button>
-          <button class="popup__button-close" type="button"></button>
-        </form>
-      </div>
-      <div class="popup__overlay"></div>
-    </div>
-    <div class="popup popup_type_add">
-      <div class="popup__container">
-        <form class="form form_add" name="add-picture" novalidate>
-          <h2 class="form__title">Новое место</h2>
-          <label class="form__field">
-            <input type="text" class="form__input form__input_place" id="title-input" name="name" placeholder="Название"
-              minlength="2" maxlength="30" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
-              data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
-              required>
-            <span class="form__input-error title-input-error"></span>
-          </label>
-          <label class="form__field">
-            <input type="url" class="form__input form__input_url" id="url-input" name="description"
-              placeholder="Ссылка на картинку" required>
-            <span class="form__input-error url-input-error"></span>
-          </label>
-          <button class="form__button-save">Создать</button>
-          <button class="popup__button-close" type="button"></button>
-        </form>
-      </div>
-      <div class="popup__overlay"></div>
-    </div>
-    <div class="popup popup_type_img">
-      <div class="popup__container">
-        <img class="popup__image" alt="Фотография красивого места в большом разрешении">
+  <div class="popup popup_type_edit">
+    <div class="popup__container">
+      <form class="form" name="edit-profile" novalidate>
+        <h2 class="form__title">Редактировать профиль</h2>
+        <label class="form__field">
+          <input type="text" class="form__input form__input_name" id="name-input" name="name" placeholder="Введите имя"
+            minlength="2" maxlength="40" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+            data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+            required>
+          <span class="form__input-error name-input-error"></span>
+        </label>
+        <label class="form__field">
+          <input type="text" class="form__input form__input_job" id="text-input" name="description"
+            placeholder="Напишите описание" minlength="2" maxlength="200" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+            data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+            required>
+          <span class="form__input-error text-input-error"></span>
+        </label>
+        <button class="form__button-save">Сохранить</button>
         <button class="popup__button-close" type="button"></button>
-        <p class="popup__capture"></p>
-      </div>
-      <div class="popup__overlay"></div>
+      </form>
     </div>
-  </section>
+    <div class="popup__overlay"></div>
+  </div>
+
+  <div class="popup popup_type_avatar-edit">
+    <div class="popup__container">
+      <form class="form" name="edit-profile-img" novalidate>
+        <h2 class="form__title">Обновить аватар</h2>
+        <label class="form__field">
+          <input type="url" class="form__input form__input_avatar" id="avatar-input" name="avatar" placeholder="Вставьте ссылку" required>
+          <span class="form__input-error avatar-input-error"></span>
+        </label>
+        <button class="form__button-save">Сохранить</button>
+        <button class="popup__button-close" type="button"></button>
+      </form>
+    </div>
+    <div class="popup__overlay"></div>
+  </div>
+
+  <div class="popup popup_type_add">
+    <div class="popup__container">
+      <form class="form form_add" name="add-picture" novalidate>
+        <h2 class="form__title">Новое место</h2>
+        <label class="form__field">
+          <input type="text" class="form__input form__input_place" id="title-input" name="name" placeholder="Название"
+            minlength="2" maxlength="30" pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+            data-error-message="Поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+            required>
+          <span class="form__input-error title-input-error"></span>
+        </label>
+        <label class="form__field">
+          <input type="url" class="form__input form__input_url" id="url-input" name="description"
+            placeholder="Ссылка на картинку" required>
+          <span class="form__input-error url-input-error"></span>
+        </label>
+        <button class="form__button-save">Создать</button>
+        <button class="popup__button-close" type="button"></button>
+      </form>
+    </div>
+    <div class="popup__overlay"></div>
+  </div>
+  <div class="popup popup_type_img">
+    <div class="popup__container">
+      <img class="popup__image" alt="Фотография красивого места в большом разрешении">
+      <button class="popup__button-close" type="button"></button>
+      <p class="popup__capture"></p>
+    </div>
+    <div class="popup__overlay"></div>
+  </div>
 
   </div>
 

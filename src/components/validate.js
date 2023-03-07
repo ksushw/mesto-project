@@ -5,7 +5,7 @@ const formSelectors = {
     inactiveButtonClass: 'button_inactive',
     inputErrorClass: '.form__input-error',
     errorClass: '.form__input-error_active'
-  }
+}
 
 const showInputError = ((formElement, inputElement, validationMessage, formSelectors) => {
     const inputEror = formElement.querySelector(`.${inputElement.id}-error`);
@@ -42,7 +42,6 @@ const hasInvalidInput = ((inputList) => {
 })
 
 const enableButton = ((inputList, button, inactiveButtonClass) => {
-    console.log(inactiveButtonClass)
     if (hasInvalidInput(inputList)) {
         button.setAttribute('disabled', true)
         button.classList.add(inactiveButtonClass)
@@ -59,7 +58,6 @@ const setDisableButton = ((form) => {
 })
 
 
-
 const setEventListeners = ((formElement, formSelectors) => {
     const inputList = Array.from(formElement.querySelectorAll(formSelectors.inputSelector))
     const button = formElement.querySelector(formSelectors.submitButtonSelector)
@@ -74,7 +72,6 @@ const setEventListeners = ((formElement, formSelectors) => {
 })
 
 
-
 const enableValidation = ((formSelectors) => {
     const forms = Array.from(document.querySelectorAll(formSelectors.formSelector))
     forms.forEach((form) => {
@@ -82,6 +79,5 @@ const enableValidation = ((formSelectors) => {
     })
 })
 
-enableValidation(formSelectors); 
 
 export { formSelectors, setDisableButton, showInputError, hideInputError, checkInputValidity, hasInvalidInput, enableButton, setEventListeners, enableValidation }

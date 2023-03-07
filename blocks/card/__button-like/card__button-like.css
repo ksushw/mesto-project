@@ -1,4 +1,4 @@
-.card__like {
+.card__button-like {
   background-color: none;
   border: none;
   outline: none;
@@ -11,11 +11,11 @@
   flex-shrink: 0;
 }
 
-.card__like:hover {
+.card__button-like:hover {
   opacity: 0.5;
 }
 
-.card__like_active {
+.card__button-like_active {
   background-image: url(../../../images/like-button-active.svg);
   opacity: 1;
 }
