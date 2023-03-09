@@ -23,8 +23,6 @@ const createCard = ((name, link, card) => {
         deleteButton.remove();
     }
 
-    console.log(card.owner._id)
-
     image.src = link;
     image.alt = name;
     cardName.textContent = name;
