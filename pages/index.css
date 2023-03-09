@@ -35,6 +35,22 @@
 @import url(../blocks/card/__trash-can/card__trash-can.css);
 @import url(../blocks/card/__description/card__description.css);
 @import url(../blocks/card/__name/card__name.css);
-@import url(../blocks/card/__like/card__like.css);
+@import url(../blocks/card/__button-like/card__button-like.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
+
+
+.card__likes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card__amount-likes {
+    display: block;
+    padding-top: 3px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+}

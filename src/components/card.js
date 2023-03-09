@@ -1,6 +1,7 @@
 import { openPopup, closePopup } from './utils'
-import { handleOpenPopup, handleClosePopup } from './modal'
-
+import { handleOpenPopup, handleClosePopup, setWaitingButton } from './modal'
+import { addCardInServer, deleteCardInServer, setLike, deleteLike } from '../../api'
+import { userId, getInitialCards } from '../index'
 
 const popupAdd = document.querySelector('.popup_type_add');
 const popupImage = document.querySelector('.popup__image');
@@ -9,76 +10,92 @@ const popupImg = document.querySelector('.popup_type_img');
 const popupPlace = document.querySelector('.form__input_place');
 const popupPictire = document.querySelector('.form__input_url');
 
-const cardList = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-    }
-];
-
-
-const createCard = ((name, link) => {
+const createCard = ((name, link, card) => {
     const cardTemplate = document.querySelector('#card-template').content;
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-    const like = cardElement.querySelector('.card__like');
-    const deleteButton = cardElement.querySelector('.card__trash-can')
+    const like = cardElement.querySelector('.card__button-like');
+    const deleteButton = cardElement.querySelector('.card__trash-can');
+    const countLikes = cardElement.querySelector('.card__amount-likes');
     const image = cardElement.querySelector('.card__photo');
     const cardName = cardElement.querySelector('.card__name');
+
+    if (!(card.owner._id === userId)) {
+        deleteButton.remove();
+    }
+
+    console.log(card.owner._id)
 
     image.src = link;
     image.alt = name;
     cardName.textContent = name;
 
-    handleLike(like);
-    handleDeleteCard(deleteButton);
+    if (card.likes.length) {
+        countLikes.textContent = card.likes.length;
+        card.likes.forEach(user => {
+            if (user._id === userId) {
+                like.classList.add('card__button-like_active');
+            }
+        });
+
+    }
+
+    handleLike(like, card._id, cardElement, countLikes);
+    handleDeleteCard(deleteButton, card._id);
     handleImgOpen(link, name, image);
     return cardElement;
 })
 
 
-const addCard = ((name, link) => {
+const addCard = ((name, link, card) => {
     const places = document.querySelector('.places')
-    const cardElement = createCard(name, link)
+    const cardElement = createCard(name, link, card)
     places.prepend(cardElement);
 })
 
-
 const handleAddFormSubmit = ((evt) => {
-    evt.preventDefault();
-    addCard(popupPlace.value, popupPictire.value);
-    evt.target.reset();
-    handleClosePopup(popupAdd);
+    evt.preventDefault(evt);
+    setWaitingButton(popupAdd);
+    addCardInServer(popupPlace.value, popupPictire.value)
+        .then((card) => {
+            addCard(card.name, card.link, card)
+            evt.target.reset();
+            console.log(card)
+            handleClosePopup(popupAdd);
+        })
+        .catch((err) => {
+            console.log(err); // выводим ошибку в консоль
+          });
 })
 
-const renderCards = (() => {
+const renderCards = ((cardList) => {
+    cardList = cardList.reverse()
     for (let i = 0; i < cardList.length; i++) {
-        addCard(cardList[i].name, cardList[i].link, cardList[i].name);
+        addCard(cardList[i].name, cardList[i].link, cardList[i]);
     }
 })
 
-const handleLike = ((like) => {
+const addLike = ((like, id, countLikes) => {
+    like.classList.add('card__button-like_active');
+    countLikes.textContent = Number(countLikes.textContent) + 1;
+    setLike(id)
+})
+
+const removeLike = ((like, id, countLikes) => {
+    like.classList.remove('card__button-like_active')
+    countLikes.textContent = Number(countLikes.textContent) - 1;
+    deleteLike(id)
+})
+
+const handleLike = ((like, id, card, countLikes) => {
+
     like.addEventListener('click', function (event) {
-        like.classList.toggle('card__like_active')
+        const likedCard = card.querySelector('.card__button-like_active')
+
+        if (likedCard) {
+            removeLike(like, id, countLikes)
+        } else {
+            addLike(like, id, countLikes)
+        }
     })
 })
 
@@ -86,9 +103,10 @@ const deleteCard = ((card) => {
     card.remove();
 })
 
-const handleDeleteCard = ((deleteButton) => {
+const handleDeleteCard = ((deleteButton, id) => {
     deleteButton.addEventListener('click', function () {
         const cardRemove = deleteButton.closest('.card')
+        deleteCardInServer(id)
         deleteCard(cardRemove)
     })
 })
