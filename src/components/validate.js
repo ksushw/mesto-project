@@ -51,10 +51,10 @@ const enableButton = ((inputList, button, inactiveButtonClass) => {
     }
 })
 
-const setDisableButton = ((form) => {
-    const button = form.querySelector('.form__button-save');
+const setDisableButton = ((form, formSelectors) => {
+    const button = form.querySelector(formSelectors.submitButtonSelector);
     button.setAttribute('disabled', true);
-    button.classList.add('button_inactive');
+    button.classList.add(formSelectors.inactiveButtonClass);
 })
 
 
@@ -70,7 +70,7 @@ const setEventListeners = ((formElement, formSelectors) => {
         })
     })
 })
-
+ 
 
 const enableValidation = ((formSelectors) => {
     const forms = Array.from(document.querySelectorAll(formSelectors.formSelector))

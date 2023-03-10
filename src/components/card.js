@@ -1,26 +1,23 @@
-import { openPopup, closePopup } from './utils'
-import { handleOpenPopup, handleClosePopup, setWaitingButton } from './modal'
-import { addCardInServer, deleteCardInServer, setLike, deleteLike } from '../../api'
-import { userId, getInitialCards } from '../index'
+import { userId } from './utils'
+import { handleOpenPopup } from './modal'
+import { deleteCardInServer, setLike, deleteLike } from './api'
 
 const popupAdd = document.querySelector('.popup_type_add');
 const popupImage = document.querySelector('.popup__image');
 const popupCapture = document.querySelector('.popup__capture');
 const popupImg = document.querySelector('.popup_type_img');
-const popupPlace = document.querySelector('.form__input_place');
-const popupPictire = document.querySelector('.form__input_url');
 
 const createCard = ((name, link, card) => {
     const cardTemplate = document.querySelector('#card-template').content;
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     const like = cardElement.querySelector('.card__button-like');
-    const deleteButton = cardElement.querySelector('.card__trash-can');
-    const countLikes = cardElement.querySelector('.card__amount-likes');
+    const buttonDelete = cardElement.querySelector('.card__trash-can');
+    const numberLikes = cardElement.querySelector('.card__amount-likes');
     const image = cardElement.querySelector('.card__photo');
     const cardName = cardElement.querySelector('.card__name');
 
     if (!(card.owner._id === userId)) {
-        deleteButton.remove();
+        buttonDelete.remove();
     }
 
     image.src = link;
@@ -28,7 +25,7 @@ const createCard = ((name, link, card) => {
     cardName.textContent = name;
 
     if (card.likes.length) {
-        countLikes.textContent = card.likes.length;
+        numberLikes.textContent = card.likes.length;
         card.likes.forEach(user => {
             if (user._id === userId) {
                 like.classList.add('card__button-like_active');
@@ -37,62 +34,47 @@ const createCard = ((name, link, card) => {
 
     }
 
-    handleLike(like, card._id, cardElement, countLikes);
-    handleDeleteCard(deleteButton, card._id);
+    handleLike(like, card._id, cardElement, numberLikes);
+    handleDeleteCard(buttonDelete, card._id);
     handleImgOpen(link, name, image);
     return cardElement;
 })
 
 
-const addCard = ((name, link, card) => {
-    const places = document.querySelector('.places')
+const addCard = ((name, link, card, contener) => {
     const cardElement = createCard(name, link, card)
-    places.prepend(cardElement);
+    contener.prepend(cardElement);
 })
 
-const handleAddFormSubmit = ((evt) => {
-    evt.preventDefault(evt);
-    setWaitingButton(popupAdd);
-    addCardInServer(popupPlace.value, popupPictire.value)
+const addLike = ((like, id, numberLikes) => {
+    setLike(id)
         .then((card) => {
-            addCard(card.name, card.link, card)
-            evt.target.reset();
-            console.log(card)
-            handleClosePopup(popupAdd);
+            like.classList.add('card__button-like_active');
+            numberLikes.textContent = card.likes.length;
         })
         .catch((err) => {
-            console.log(err); // выводим ошибку в консоль
-          });
+            console.log(err);
+        });
 })
 
-const renderCards = ((cardList) => {
-    cardList = cardList.reverse()
-    for (let i = 0; i < cardList.length; i++) {
-        addCard(cardList[i].name, cardList[i].link, cardList[i]);
-    }
-})
-
-const addLike = ((like, id, countLikes) => {
-    like.classList.add('card__button-like_active');
-    countLikes.textContent = Number(countLikes.textContent) + 1;
-    setLike(id)
-})
-
-const removeLike = ((like, id, countLikes) => {
-    like.classList.remove('card__button-like_active')
-    countLikes.textContent = Number(countLikes.textContent) - 1;
+const removeLike = ((like, id, numberLikes) => {
     deleteLike(id)
+        .then((card) => {
+            like.classList.remove('card__button-like_active')
+            numberLikes.textContent = card.likes.length;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 })
 
-const handleLike = ((like, id, card, countLikes) => {
-
+const handleLike = ((like, id, card, numberLikes) => {
     like.addEventListener('click', function (event) {
         const likedCard = card.querySelector('.card__button-like_active')
-
         if (likedCard) {
-            removeLike(like, id, countLikes)
+            removeLike(like, id, numberLikes)
         } else {
-            addLike(like, id, countLikes)
+            addLike(like, id, numberLikes)
         }
     })
 })
@@ -101,9 +83,9 @@ const deleteCard = ((card) => {
     card.remove();
 })
 
-const handleDeleteCard = ((deleteButton, id) => {
-    deleteButton.addEventListener('click', function () {
-        const cardRemove = deleteButton.closest('.card')
+const handleDeleteCard = ((buttonDelete, id) => {
+    buttonDelete.addEventListener('click', function () {
+        const cardRemove = buttonDelete.closest('.card')
         deleteCardInServer(id)
         deleteCard(cardRemove)
     })
@@ -120,5 +102,5 @@ const handleImgOpen = ((link, title, card) => {
 
 export {
     popupAdd,
-    createCard, addCard, handleAddFormSubmit, renderCards, handleLike, deleteCard, handleDeleteCard, handleImgOpen
+    createCard, addCard, handleLike, deleteCard, handleDeleteCard, handleImgOpen
 }

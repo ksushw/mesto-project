@@ -1,73 +1,46 @@
-import { openPopup, closePopup } from './utils'
-import { setDisableButton, hideInputError, formSelectors } from './validate'
-import { editUserInfo, changeAvatar } from '../../api'
-import { avatarIcon, popupAvatar } from '../index'
-
 const popupEdit = document.querySelector('.popup_type_edit');
-const closeButtons = document.querySelectorAll('.popup__button-close');
+const buttonsClose = document.querySelectorAll('.popup__button-close');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__description');
-const nameInput = document.querySelector('.form__input_name');
-const jobInput = document.querySelector('.form__input_job');
-const inputAvatarUrl = document.querySelector('.form__input_avatar')
 
-const setProfileDataInInput = (() => {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-})
+
+const popupAvatar = document.querySelector('.popup_type_avatar-edit');
+const avatarIcon = document.querySelector('.profile__photo');
+
+
 
 const closeByEsc = ((evt) => {
-    if (evt.keyCode === 27 && openPopup) {
-        const openPopup = document.querySelector('.popup_opened')
-        handleClosePopup(openPopup)
+    if (evt.key === 'Escape') {
+        const popupOpen = document.querySelector('.popup_opened')
+        handleClosePopup(popupOpen)
     }
 })
 //оТКРЫВАЕТ ПОПАП, БЛОКИРУЕТ КНОПКУ ОТПРАВКИ, ВЕШАЕТ СЛУШАТЕЛИ ЗАКРЫТИЯ
 const handleOpenPopup = ((popup) => {
-    openPopup(popup)
+    popup.classList.add('popup_opened');
     const overlay = popup.querySelector('.popup__overlay');
     document.addEventListener('keyup', closeByEsc);
     overlay.addEventListener('click', handlerEventListenerOverlay);
 })
 
 function handlerEventListenerOverlay() {
-    const openedPopup = document.querySelector('.popup_opened');
-    handleClosePopup(openedPopup)
+    const popupOpen = document.querySelector('.popup_opened');
+    handleClosePopup(popupOpen)
 }
 
-const openPopupEdit = (() => {
-    handleOpenPopup(popupEdit)
-    setDisableButton(popupEdit);
-    const inputsPopupEdit = Array.from(popupEdit.querySelectorAll('.form__input'))
-    inputsPopupEdit.forEach((input) => {
-        hideInputError(popupEdit, input, formSelectors);
-    })
-    setProfileDataInInput();
-})
 
-const editAvatar = ((evt) => {
-    setWaitingButton(popupAvatar);
-    evt.preventDefault();
-    changeAvatar(inputAvatarUrl.value)
-        .then((profile) => {
-            avatarIcon.src = profile.avatar;
-            handleClosePopup(popupAvatar);
-        })
-        .catch((err) => {
-            console.log(err); 
-          });
-})
+
+
 
 const handleClosePopup = ((popup) => {
-    const openedPopup = document.querySelector('.popup_opened');
-    const overlay = openedPopup.querySelector('.popup__overlay');
+    const overlay = popup.querySelector('.popup__overlay');
     document.removeEventListener('keyup', closeByEsc)
     overlay.removeEventListener('click', handlerEventListenerOverlay);
-    closePopup(popup);
+    popup.classList.remove('popup_opened');
 })
 
 const popupCloseHandler = (function () {
-    closeButtons.forEach(function (button) {
+    buttonsClose.forEach(function (button) {
         const popup = button.closest('.popup');
         button.addEventListener('click', function () {
             handleClosePopup(popup)
@@ -76,19 +49,7 @@ const popupCloseHandler = (function () {
     })
 })
 
-const handleProfileFormSubmit = ((evt) => {
-    setWaitingButton(popupEdit);
-    evt.preventDefault();
-    editUserInfo(nameInput.value, jobInput.value)
-        .then((userInfo) => {
-            profileName.textContent = userInfo.name;
-            profileJob.textContent = userInfo.about;
-            handleClosePopup(popupEdit);
-        })
-        .catch((err) => {
-            console.log(err); 
-          });
-})
+
 
 const setWaitingButton = ((popup)=>{
     const button = popup.querySelector('.form__button-save')
@@ -96,4 +57,9 @@ const setWaitingButton = ((popup)=>{
     button.textContent = "Сохранение..."
 })
 
-export { setWaitingButton, profileName, profileJob, handleOpenPopup, handleClosePopup, setProfileDataInInput, openPopupEdit, popupCloseHandler, handleProfileFormSubmit, editAvatar }
+const unsetWaitingButton = ((popup)=>{
+    const button = popup.querySelector('.form__button-save')
+    button.textContent = "Сохранение"
+})
+
+export { popupEdit, avatarIcon, popupAvatar, setWaitingButton,unsetWaitingButton, profileName, profileJob, handleOpenPopup, handleClosePopup, popupCloseHandler }
