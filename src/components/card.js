@@ -1,5 +1,5 @@
 import { userId } from './utils'
-import { handleOpenPopup } from './modal'
+import { openPopup } from './modal'
 import { deleteCardInServer, setLike, deleteLike } from './api'
 
 const popupAdd = document.querySelector('.popup_type_add');
@@ -87,7 +87,12 @@ const handleDeleteCard = ((buttonDelete, id) => {
     buttonDelete.addEventListener('click', function () {
         const cardRemove = buttonDelete.closest('.card')
         deleteCardInServer(id)
-        deleteCard(cardRemove)
+            .then(() => {
+                deleteCard(cardRemove)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     })
 })
 
@@ -96,7 +101,7 @@ const handleImgOpen = ((link, title, card) => {
         popupImage.src = link;
         popupImage.alt = title;
         popupCapture.textContent = title;
-        handleOpenPopup(popupImg)
+        openPopup(popupImg)
     })
 })
 

@@ -2,7 +2,7 @@ import './../pages/index.css'
 import { getInitialCards, getUserInfo, changeAvatar, editUserInfo, addCardInServer } from './components/api'
 import { setUserId } from './components/utils'
 import { popupAdd, addCard } from './components/card'
-import { popupEdit, handleClosePopup, avatarIcon, popupAvatar, profileName, profileJob, handleOpenPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
+import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
 import { enableValidation, setDisableButton, formSelectors, hideInputError } from './components/validate'
 
 const profileEdit = document.querySelector('.profile__edit');
@@ -45,7 +45,7 @@ const renderCards = ((cardList) => {
 })
 
 avatarIcon.addEventListener('click', function () {
-    handleOpenPopup(popupAvatar);
+    openPopup(popupAvatar);
     setDisableButton(popupAvatar, formSelectors);
 })
 
@@ -55,11 +55,13 @@ const editAvatar = ((evt) => {
     changeAvatar(inputAvatarUrl.value)
         .then((profile) => {
             avatarIconImg.src = profile.avatar;
-            unsetWaitingButton(popupAvatar);
-            handleClosePopup(popupAvatar);
+            closePopup(popupAvatar);
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            unsetWaitingButton(popupAvatar);
         });
 })
 
@@ -69,7 +71,7 @@ formAvatar.addEventListener('submit', editAvatar)
 
 
 const openPopupEdit = (() => {
-    handleOpenPopup(popupEdit)
+    openPopup(popupEdit)
     setDisableButton(popupEdit, formSelectors);
     const inputsPopupEdit = Array.from(popupEdit.querySelectorAll('.form__input'))
     inputsPopupEdit.forEach((input) => {
@@ -87,18 +89,20 @@ const handleProfileFormSubmit = ((evt) => {
         .then((userInfo) => {
             profileName.textContent = userInfo.name;
             profileJob.textContent = userInfo.about;
-            unsetWaitingButton(popupEdit);
-            handleClosePopup(popupEdit);
+            closePopup(popupEdit);
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            unsetWaitingButton(popupAvatar);
         });
 })
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 buttonAddCard.addEventListener('click', function () {
-    handleOpenPopup(popupAdd);
+    openPopup(popupAdd);
     setDisableButton(popupAdd, formSelectors);
 });
 
@@ -109,11 +113,13 @@ const handleAddFormSubmit = ((evt) => {
         .then((card) => {
             addCard(card.name, card.link, card, places)
             evt.target.reset();
-            unsetWaitingButton(popupAdd)
-            handleClosePopup(popupAdd);
+            closePopup(popupAdd);
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            unsetWaitingButton(popupAvatar);
         });
 })
 

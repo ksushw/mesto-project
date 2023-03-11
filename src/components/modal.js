@@ -12,11 +12,11 @@ const avatarIcon = document.querySelector('.profile__photo');
 const closeByEsc = ((evt) => {
     if (evt.key === 'Escape') {
         const popupOpen = document.querySelector('.popup_opened')
-        handleClosePopup(popupOpen)
+        closePopup(popupOpen)
     }
 })
 //оТКРЫВАЕТ ПОПАП, БЛОКИРУЕТ КНОПКУ ОТПРАВКИ, ВЕШАЕТ СЛУШАТЕЛИ ЗАКРЫТИЯ
-const handleOpenPopup = ((popup) => {
+const openPopup = ((popup) => {
     popup.classList.add('popup_opened');
     const overlay = popup.querySelector('.popup__overlay');
     document.addEventListener('keyup', closeByEsc);
@@ -25,14 +25,14 @@ const handleOpenPopup = ((popup) => {
 
 function handlerEventListenerOverlay() {
     const popupOpen = document.querySelector('.popup_opened');
-    handleClosePopup(popupOpen)
+    closePopup(popupOpen)
 }
 
 
 
 
 
-const handleClosePopup = ((popup) => {
+const closePopup = ((popup) => {
     const overlay = popup.querySelector('.popup__overlay');
     document.removeEventListener('keyup', closeByEsc)
     overlay.removeEventListener('click', handlerEventListenerOverlay);
@@ -43,7 +43,7 @@ const popupCloseHandler = (function () {
     buttonsClose.forEach(function (button) {
         const popup = button.closest('.popup');
         button.addEventListener('click', function () {
-            handleClosePopup(popup)
+            closePopup(popup)
 
         });
     })
@@ -62,4 +62,4 @@ const unsetWaitingButton = ((popup)=>{
     button.textContent = "Сохранение"
 })
 
-export { popupEdit, avatarIcon, popupAvatar, setWaitingButton,unsetWaitingButton, profileName, profileJob, handleOpenPopup, handleClosePopup, popupCloseHandler }
+export { popupEdit, avatarIcon, popupAvatar, setWaitingButton,unsetWaitingButton, profileName, profileJob, openPopup, closePopup, popupCloseHandler }
