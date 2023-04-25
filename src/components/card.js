@@ -1,6 +1,6 @@
 import { userId } from './utils'
 import { openPopup } from './modal'
-import { deleteCardInServer, setLike, deleteLike } from './api'
+import { api } from '../components/api'
 
 const popupAdd = document.querySelector('.popup_type_add');
 const popupImage = document.querySelector('.popup__image');
@@ -47,7 +47,7 @@ const addCard = ((name, link, card, contener) => {
 })
 
 const addLike = ((like, id, numberLikes) => {
-    setLike(id)
+    api.setLike(id)
         .then((card) => {
             like.classList.add('card__button-like_active');
             numberLikes.textContent = card.likes.length;
@@ -58,7 +58,7 @@ const addLike = ((like, id, numberLikes) => {
 })
 
 const removeLike = ((like, id, numberLikes) => {
-    deleteLike(id)
+    api.deleteLike(id)
         .then((card) => {
             like.classList.remove('card__button-like_active')
             numberLikes.textContent = card.likes.length;
@@ -86,7 +86,7 @@ const deleteCard = ((card) => {
 const handleDeleteCard = ((buttonDelete, id) => {
     buttonDelete.addEventListener('click', function () {
         const cardRemove = buttonDelete.closest('.card')
-        deleteCardInServer(id)
+        api.deleteCardInServer(id)
             .then(() => {
                 deleteCard(cardRemove)
             })

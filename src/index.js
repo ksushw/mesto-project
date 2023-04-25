@@ -1,9 +1,9 @@
 import './../pages/index.css'
-import { getInitialCards, getUserInfo, changeAvatar, editUserInfo, addCardInServer } from './components/api'
 import { setUserId } from './components/utils'
 import { popupAdd, addCard } from './components/card'
 import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
 import { enableValidation, setDisableButton, formSelectors, hideInputError } from './components/validate'
+import { api } from './components/api'
 
 const profileEdit = document.querySelector('.profile__edit');
 const profileForm = document.forms["edit-profile"];
@@ -24,7 +24,7 @@ const setProfileDataInInput = (() => {
     jobInput.value = profileJob.textContent;
 })
 
-Promise.all([getUserInfo(), getInitialCards()]).then(res => {
+Promise.all([api.getUserInfo(), api.getInitialCards()]).then(res => {
     const responceUserInfo = res[0];
     const responseGetInitialCard = res[1]
     profileName.textContent = responceUserInfo.name;
@@ -52,7 +52,7 @@ avatarIcon.addEventListener('click', function () {
 const editAvatar = ((evt) => {
     setWaitingButton(popupAvatar);
     evt.preventDefault();
-    changeAvatar(inputAvatarUrl.value)
+    api.changeAvatar(inputAvatarUrl.value)
         .then((profile) => {
             avatarIconImg.src = profile.avatar;
             closePopup(popupAvatar);
@@ -85,7 +85,7 @@ profileEdit.addEventListener('click', openPopupEdit);
 const handleProfileFormSubmit = ((evt) => {
     setWaitingButton(popupEdit);
     evt.preventDefault();
-    editUserInfo(nameInput.value, jobInput.value)
+    api.editUserInfo(nameInput.value, jobInput.value)
         .then((userInfo) => {
             profileName.textContent = userInfo.name;
             profileJob.textContent = userInfo.about;
@@ -109,7 +109,7 @@ buttonAddCard.addEventListener('click', function () {
 const handleAddFormSubmit = ((evt) => {
     evt.preventDefault(evt);
     setWaitingButton(popupAdd);
-    addCardInServer(popupPlace.value, popupPictire.value)
+    api.addCardInServer(popupPlace.value, popupPictire.value)
         .then((card) => {
             addCard(card.name, card.link, card, places)
             evt.target.reset();
