@@ -7,12 +7,6 @@ const popupImage = document.querySelector('.popup__image');
 const popupCapture = document.querySelector('.popup__capture');
 const popupImg = document.querySelector('.popup_type_img');
 
-const addCard = ((data, contener) => {
-    const card = new Card(data, '#card-template')
-    const cardElement = card.generate();
-    contener.prepend(cardElement);
-})
-
 class Card {
     constructor(data, cardSelector) {
         this._ownerId = data.owner._id;
@@ -129,8 +123,7 @@ class Card {
 
 export {
     popupAdd,
-    Card,
-    addCard
+    Card
 }
 
 

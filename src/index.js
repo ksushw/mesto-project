@@ -1,9 +1,10 @@
 import './../pages/index.css'
 import { getInitialCards, getUserInfo, changeAvatar, editUserInfo, addCardInServer } from './components/api'
 import { setUserId } from './components/utils'
-import { popupAdd, addCard } from './components/card'
+import { popupAdd, Card } from './components/card'
 import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
 import { enableValidation, setDisableButton, formSelectors, hideInputError } from './components/validate'
+import Section from './components/Section';
 
 const profileEdit = document.querySelector('.profile__edit');
 const profileForm = document.forms["edit-profile"];
@@ -31,18 +32,19 @@ Promise.all([getUserInfo(), getInitialCards()]).then(res => {
     profileJob.textContent = responceUserInfo.about;
     profilePicture.src = responceUserInfo.avatar;
     setUserId(responceUserInfo._id)
-    renderCards(Array.from(responseGetInitialCard))
+    const cardSection = new Section({
+        data: Array.from(responseGetInitialCard),
+        renderer: (item) => {
+            const card = new Card(item, '#card-template');
+            const cardElement = card.generate();
+            cardSection.setItems(cardElement)
+        }
+    }, places)
+    cardSection.renderItems();
 })
     .catch((err) => {
         console.log(err);
     });
-
-const renderCards = ((cardList) => {
-    cardList = cardList.reverse()
-    for (let i = 0; i < cardList.length; i++) {
-        addCard(cardList[i], places);
-    }
-})
 
 avatarIcon.addEventListener('click', function () {
     openPopup(popupAvatar);
@@ -111,7 +113,15 @@ const handleAddFormSubmit = ((evt) => {
     setWaitingButton(popupAdd);
     addCardInServer(popupPlace.value, popupPictire.value)
         .then((card) => {
-            addCard(card, places)
+            const newCard = new Section({
+                data: card,
+                renderer: (item) => {
+                    const card = new Card(item, '#card-template');
+                    const cardElement = card.generate();
+                    newCard.setItems(cardElement)
+                }
+            }, places)
+            newCard.renderItem();
             evt.target.reset();
             closePopup(popupAdd);
         })
