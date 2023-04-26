@@ -40,7 +40,7 @@ Promise.all([getUserInfo(), getInitialCards()]).then(res => {
 const renderCards = ((cardList) => {
     cardList = cardList.reverse()
     for (let i = 0; i < cardList.length; i++) {
-        addCard(cardList[i].name, cardList[i].link, cardList[i], places);
+        addCard(cardList[i], places);
     }
 })
 
@@ -111,7 +111,7 @@ const handleAddFormSubmit = ((evt) => {
     setWaitingButton(popupAdd);
     addCardInServer(popupPlace.value, popupPictire.value)
         .then((card) => {
-            addCard(card.name, card.link, card, places)
+            addCard(card, places)
             evt.target.reset();
             closePopup(popupAdd);
         })
