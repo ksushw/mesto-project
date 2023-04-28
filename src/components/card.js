@@ -1,4 +1,4 @@
-import { userId } from './utils'
+
 import { openPopup } from './modal'
 import { deleteCardInServer, setLike, deleteLike } from './api'
 
@@ -7,14 +7,17 @@ const popupImage = document.querySelector('.popup__image');
 const popupCapture = document.querySelector('.popup__capture');
 const popupImg = document.querySelector('.popup_type_img');
 
+
+
 class Card {
-    constructor(data, cardSelector) {
+    constructor(data, cardSelector, userId) {
         this._ownerId = data.owner._id;
         this._imageUrl = data.link;
         this._cardName = data.name;
         this._likes = data.likes;
         this._id = data._id;
         this._selector = cardSelector;
+        this._userId = userId;
     }
 
     _getElement() {
@@ -58,7 +61,7 @@ class Card {
     };
 
     _isLikedUser() {
-        return this._likes.some((like) => like._id === userId)
+        return this._likes.some((like) => like._id === this._userId)
     }
 
     _handleDeleteCard() {
@@ -113,7 +116,7 @@ class Card {
 
         this._setEventListeners();
 
-        if (!(this._ownerId === userId)) {
+        if (!(this._ownerId === this._userId)) {
             this._trashCan.remove();
         }
 

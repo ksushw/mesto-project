@@ -1,16 +1,15 @@
 import './../pages/index.css'
 import { getInitialCards, getUserInfo, changeAvatar, editUserInfo, addCardInServer } from './components/api'
-import { setUserId } from './components/utils'
 import { popupAdd, Card } from './components/card'
 import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
 import { enableValidation, setDisableButton, formSelectors, hideInputError } from './components/validate'
 import Section from './components/Section';
+import UserInfo from './components/UserInfo';
 
 const profileEdit = document.querySelector('.profile__edit');
 const profileForm = document.forms["edit-profile"];
 const buttonAddCard = document.querySelector('.profile__add');
 const formAdd = document.forms["add-picture"];
-const profilePicture = document.querySelector('.profile__photo-img');
 const places = document.querySelector('.places');
 const formAvatar = document.forms["edit-profile-img"];
 const inputAvatarUrl = document.querySelector('.form__input_avatar')
@@ -18,24 +17,30 @@ const nameInput = document.querySelector('.form__input_name');
 const jobInput = document.querySelector('.form__input_job');
 const popupPlace = document.querySelector('.form__input_place');
 const popupPictire = document.querySelector('.form__input_url');
-const avatarIconImg = document.querySelector('.profile__photo-img')
+const avatarIconImg = document.querySelector('.profile__photo-img');
+
+
+let userId = ''
+
+const profileInfo = new UserInfo({
+    nameSelector: '.profile__name',
+    descriptionSelector: '.profile__description'
+});
+
+
 
 const setProfileDataInInput = (() => {
     nameInput.value = profileName.textContent;
     jobInput.value = profileJob.textContent;
 })
 
-Promise.all([getUserInfo(), getInitialCards()]).then(res => {
+Promise.all([profileInfo.getUserInfo(), getInitialCards()]).then(res => {
     const responceUserInfo = res[0];
-    const responseGetInitialCard = res[1]
-    profileName.textContent = responceUserInfo.name;
-    profileJob.textContent = responceUserInfo.about;
-    profilePicture.src = responceUserInfo.avatar;
-    setUserId(responceUserInfo._id)
+    const responseGetInitialCard = res[1];
     const cardSection = new Section({
         data: Array.from(responseGetInitialCard),
         renderer: (item) => {
-            const card = new Card(item, '#card-template');
+            const card = new Card(item, '#card-template', responceUserInfo._id);
             const cardElement = card.generate();
             cardSection.setItems(cardElement)
         }
@@ -44,6 +49,7 @@ Promise.all([getUserInfo(), getInitialCards()]).then(res => {
 })
     .catch((err) => {
         console.log(err);
+
     });
 
 avatarIcon.addEventListener('click', function () {
@@ -116,7 +122,7 @@ const handleAddFormSubmit = ((evt) => {
             const newCard = new Section({
                 data: card,
                 renderer: (item) => {
-                    const card = new Card(item, '#card-template');
+                    const card = new Card(item, '#card-template', profileInfo.getUserId());
                     const cardElement = card.generate();
                     newCard.setItems(cardElement)
                 }
@@ -140,3 +146,5 @@ setProfileDataInInput()
 popupCloseHandler()
 
 enableValidation(formSelectors);
+
+console.log(userId)
