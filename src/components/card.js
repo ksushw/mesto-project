@@ -7,8 +7,6 @@ const popupImage = document.querySelector('.popup__image');
 const popupCapture = document.querySelector('.popup__capture');
 const popupImg = document.querySelector('.popup_type_img');
 
-
-
 class Card {
     constructor(data, cardSelector, userId) {
         this._ownerId = data.owner._id;

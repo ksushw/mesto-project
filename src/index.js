@@ -1,6 +1,6 @@
 import './../pages/index.css'
-import { getInitialCards, getUserInfo, changeAvatar, editUserInfo, addCardInServer } from './components/api'
-import { popupAdd, Card } from './components/card'
+import { getInitialCards, addCardInServer } from './components/api'
+import { popupAdd, Card } from './components/Card'
 import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
 import { enableValidation, setDisableButton, formSelectors, hideInputError } from './components/validate'
 import Section from './components/Section';
@@ -17,22 +17,12 @@ const nameInput = document.querySelector('.form__input_name');
 const jobInput = document.querySelector('.form__input_job');
 const popupPlace = document.querySelector('.form__input_place');
 const popupPictire = document.querySelector('.form__input_url');
-const avatarIconImg = document.querySelector('.profile__photo-img');
-
-
-let userId = ''
 
 const profileInfo = new UserInfo({
     nameSelector: '.profile__name',
-    descriptionSelector: '.profile__description'
+    descriptionSelector: '.profile__description',
+    imageSelector: '.profile__photo-img'
 });
-
-
-
-const setProfileDataInInput = (() => {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-})
 
 Promise.all([profileInfo.getUserInfo(), getInitialCards()]).then(res => {
     const responceUserInfo = res[0];
@@ -45,6 +35,7 @@ Promise.all([profileInfo.getUserInfo(), getInitialCards()]).then(res => {
             cardSection.setItems(cardElement)
         }
     }, places)
+
     cardSection.renderItems();
 })
     .catch((err) => {
@@ -60,23 +51,21 @@ avatarIcon.addEventListener('click', function () {
 const editAvatar = ((evt) => {
     setWaitingButton(popupAvatar);
     evt.preventDefault();
-    changeAvatar(inputAvatarUrl.value)
-        .then((profile) => {
-            avatarIconImg.src = profile.avatar;
-            closePopup(popupAvatar);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+    profileInfo.setUserPicture(inputAvatarUrl.value)
         .finally(() => {
             unsetWaitingButton(popupAvatar);
+            inputAvatarUrl.value = '';
+            closePopup(popupAvatar);
         });
+    
 })
 
 formAvatar.addEventListener('submit', editAvatar)
 
-
-
+const setProfileDataInInput = (() => {
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileJob.textContent;
+})
 
 const openPopupEdit = (() => {
     openPopup(popupEdit)
@@ -93,17 +82,10 @@ profileEdit.addEventListener('click', openPopupEdit);
 const handleProfileFormSubmit = ((evt) => {
     setWaitingButton(popupEdit);
     evt.preventDefault();
-    editUserInfo(nameInput.value, jobInput.value)
-        .then((userInfo) => {
-            profileName.textContent = userInfo.name;
-            profileJob.textContent = userInfo.about;
-            closePopup(popupEdit);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+    profileInfo.setUserInfo(nameInput.value, jobInput.value)
         .finally(() => {
-            unsetWaitingButton(popupAvatar);
+            unsetWaitingButton(popupEdit);
+            closePopup(popupEdit);
         });
 })
 
@@ -135,7 +117,7 @@ const handleAddFormSubmit = ((evt) => {
             console.log(err);
         })
         .finally(() => {
-            unsetWaitingButton(popupAvatar);
+            unsetWaitingButton(popupAdd);
         });
 })
 
@@ -146,5 +128,3 @@ setProfileDataInInput()
 popupCloseHandler()
 
 enableValidation(formSelectors);
-
-console.log(userId)

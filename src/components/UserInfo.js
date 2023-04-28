@@ -1,29 +1,26 @@
-import { getUserInfo } from '../components/api'
-
-const profilePicture = document.querySelector('.profile__photo-img');
+import { getUserInfo, editUserInfo, changeAvatar } from '../components/api'
 
 export default class UserInfo {
-    constructor({ nameSelector, descriptionSelector }) {
+    constructor({ nameSelector, descriptionSelector, imageSelector }) {
         this._nameSelector = nameSelector;
         this._descriptionSelector = descriptionSelector;
-        this._name = '';
-        this._description = '';
+        this._imageSelector = imageSelector;
         this._userId = '';
+    }
+
+    _putInDom(name, about, image) {
+        document.querySelector(this._nameSelector).textContent = name;
+        document.querySelector(this._descriptionSelector).textContent = about;
+        document.querySelector(this._imageSelector).src = image;
     }
 
     getUserInfo() {
         return getUserInfo()
             .then((responceUserInfo) => {
-                this._name = responceUserInfo.name;
-                this._description = responceUserInfo.about;
+                this._putInDom(responceUserInfo.name, responceUserInfo.about, responceUserInfo.avatar)
                 this._userId = responceUserInfo._id;
-
-                document.querySelector(this._nameSelector).textContent = this._name;
-                document.querySelector(this._descriptionSelector).textContent = this._description;
-
-                return responceUserInfo
+                return responceUserInfo;
             })
-
     }
 
     getUserId() {
@@ -31,18 +28,22 @@ export default class UserInfo {
     }
 
     setUserInfo(name, job) {
-        editUserInfo(name, job)
-        .then((userInfo) => {
-            document.querySelector(this._nameSelector).textContent = userInfo.name;
-            document.querySelector(this._descriptionSelector).textContent = userInfo.about;
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-        .finally(() => {
-            unsetWaitingButton(popupAvatar);
-        });
+        return editUserInfo(name, job)
+            .then((userInfo) => {
+                this._putInDom(userInfo.name, userInfo.about, userInfo.avatar);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-
+    setUserPicture(url) {
+        return changeAvatar(url)
+            .then((userInfo) => {
+                this._putInDom(userInfo.name, userInfo.about, userInfo.avatar)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 }
