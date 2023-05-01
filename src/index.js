@@ -5,10 +5,14 @@ import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob
 import { enableValidation, setDisableButton, formSelectors, hideInputError } from './components/validate'
 import Section from './components/Section';
 import UserInfo from './components/UserInfo';
+import { setUserId } from './components/utils';
+// import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
+import { Popup, PopupWithForm, PopupWithImage } from './components/modal'
+import { FormValidator, formSelectors } from './components/validate' // hideInputError
+import { api } from './components/api'
 
 const profileEdit = document.querySelector('.profile__edit');
 const profileForm = document.forms["edit-profile"];
-const buttonAddCard = document.querySelector('.profile__add');
 const formAdd = document.forms["add-picture"];
 const places = document.querySelector('.places');
 const formAvatar = document.forms["edit-profile-img"];
@@ -40,76 +44,101 @@ Promise.all([profileInfo.getUserInfo(), getInitialCards()]).then(res => {
 })
     .catch((err) => {
         console.log(err);
+});
+const avatarIcon = document.querySelector('.profile__photo');
+const avatarIconImg = document.querySelector('.profile__photo-img');
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__description');
 
-    });
+// POPUP Elements 
+const popupAvatarEl = document.querySelector('.popup_type_avatar-edit');
+const popupEditEl = document.querySelector('.popup_type_edit');
+const popupAddEl = document.querySelector('.popup_type_add');
+const popupImg = document.querySelector('.popup_type_img')
 
-avatarIcon.addEventListener('click', function () {
-    openPopup(popupAvatar);
-    setDisableButton(popupAvatar, formSelectors);
-})
-
-const editAvatar = ((evt) => {
-    setWaitingButton(popupAvatar);
-    evt.preventDefault();
-    profileInfo.setUserPicture(inputAvatarUrl.value)
-        .finally(() => {
-            unsetWaitingButton(popupAvatar);
-            inputAvatarUrl.value = '';
-            closePopup(popupAvatar);
-        });
-    
-})
-
-formAvatar.addEventListener('submit', editAvatar)
-
-const setProfileDataInInput = (() => {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-})
-
-const openPopupEdit = (() => {
-    openPopup(popupEdit)
-    setDisableButton(popupEdit, formSelectors);
-    const inputsPopupEdit = Array.from(popupEdit.querySelectorAll('.form__input'))
-    inputsPopupEdit.forEach((input) => {
-        hideInputError(popupEdit, input, formSelectors);
-    })
-    setProfileDataInInput();
-})
-
-profileEdit.addEventListener('click', openPopupEdit);
-
-const handleProfileFormSubmit = ((evt) => {
-    setWaitingButton(popupEdit);
-    evt.preventDefault();
-    profileInfo.setUserInfo(nameInput.value, jobInput.value)
-        .finally(() => {
-            unsetWaitingButton(popupEdit);
-            closePopup(popupEdit);
-        });
-})
-
-profileForm.addEventListener('submit', handleProfileFormSubmit);
-
-buttonAddCard.addEventListener('click', function () {
-    openPopup(popupAdd);
-    setDisableButton(popupAdd, formSelectors);
+// POPUP Objects
+const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
+    console.log(avatarUrl); // PUT HERE THE LOGIC OF SUBMIT CHANGE AVATAR POPUP OR CALLBACK
 });
 
+const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
+    console.log(editData); // PUT HERE THE LOGIC OF SUBMIT EDIT DATA POPUP OR CALLBACK
+});
+
+const popupAddObj = new PopupWithForm(popupAddEl, (addCardData) => {
+    console.log(addCardData); // PUT HERE THE LOGIC OF SUBMIT ADD CARD POPUP OR CALLBACK
+});
+
+
+// Avatar Image Listener
+avatarIcon.addEventListener('click', function () {
+    popupAvatarObj.open(); // ALSO MAYBE MOVE IT TO THE CALLBACK AS openPopupEdit (?) const openPopupAvatar = () => {...}
+    popupAvatarObj.setEventListeners();
+    const popupAvatarValidator = new FormValidator(formSelectors, popupAvatarEl)
+    popupAvatarValidator.setDisableButton();
+});
+
+// Profile edit Listener
+const profileEditButton = document.querySelector('.profile__edit'); //move it upstairs
+profileEditButton.addEventListener('click', () => {
+    popupEditObj.open();
+    //setProfileDataInInput(); // DO THE ANALOG THEN DELETE
+    const popupEditValidator = new FormValidator(formSelectors, popupEditEl);
+    popupEditObj.setEventListeners();
+    popupEditValidator.setDisableButton();
+});
+
+// Add card popup Listener 
+const addCardButton = document.querySelector('.profile__add'); //move it upstairs
+addCardButton.addEventListener('click', () => {
+    popupEditObj.open();
+    popupAddObj.setEventListeners();
+    const popupAddValidator = new FormValidator(formSelectors, popupAddEl);
+    popupAddValidator.setDisableButton();
+});
+
+// Change Avatar Logic OLD
+const editAvatar = ((evt) => { // DO THE waiting button logic while changing avatar
+    setWaitingButton(popupAvatar);
+    evt.preventDefault();
+    api.changeAvatar(inputAvatarUrl.value)
+        .then((profile) => {
+            avatarIconImg.src = profile.avatar;
+            closePopup(popupAvatar);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .finally(() => {
+            unsetWaitingButton(popupAvatar);
+        });
+})
+
+// Profile Edit Logic OLD
+const handleProfileFormSubmit = ((evt) => { 
+    setWaitingButton(popupEdit);
+    evt.preventDefault();
+    api.editUserInfo(nameInput.value, jobInput.value)
+        .then((userInfo) => {
+            profileName.textContent = userInfo.name;
+            profileJob.textContent = userInfo.about;
+            closePopup(popupEdit);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .finally(() => {
+            unsetWaitingButton(popupEdit);
+        });
+});
+
+// Add Card Logic OLD
 const handleAddFormSubmit = ((evt) => {
     evt.preventDefault(evt);
     setWaitingButton(popupAdd);
-    addCardInServer(popupPlace.value, popupPictire.value)
+    api.addCardInServer(popupPlace.value, popupPictire.value)
         .then((card) => {
-            const newCard = new Section({
-                data: card,
-                renderer: (item) => {
-                    const card = new Card(item, '#card-template', profileInfo.getUserId());
-                    const cardElement = card.generate();
-                    newCard.setItems(cardElement)
-                }
-            }, places)
-            newCard.renderItem();
+            addCard(card.name, card.link, card, places)
             evt.target.reset();
             closePopup(popupAdd);
         })
@@ -119,12 +148,29 @@ const handleAddFormSubmit = ((evt) => {
         .finally(() => {
             unsetWaitingButton(popupAdd);
         });
+});
+
+
+
+
+// enable all forms validation
+const forms = Array.from(document.querySelectorAll('.form'));
+forms.forEach((form) => {
+    const formValidator = new FormValidator(formSelectors, form);
+    formValidator.enableValidation();
 })
+
+/*const setProfileDataInInput = (() => {
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileJob.textContent;
+}) */
+
+// --------------------------
+
+    
 
 formAdd.addEventListener('submit', handleAddFormSubmit);
 
-setProfileDataInInput()
+//setProfileDataInInput() 
 
-popupCloseHandler()
-
-enableValidation(formSelectors);
+//popupCloseHandler()
