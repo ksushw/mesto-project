@@ -105,6 +105,19 @@ class PopupWithForm extends Popup {
         super(selector);
         this._formSubmit = formSubmit;
         this._form = this.popup.querySelector('.form');
+        this._loadingText = this._form.querySelector('.form__button-save');
+    }
+
+    toggleButtonText() {
+        if (this._loadingText.textContent === 'Создать') {
+            this._loadingText.textContent = 'Создание...';
+        } else if (this._loadingText.textContent === 'Сохранить') {
+            this._loadingText.textContent = 'Сохранение...';
+        } else if (this._loadingText.textContent === 'Создание...') {
+            this._loadingText.textContent = 'Создать';
+        } else if (this._loadingText.textContent === 'Сохранение...') {
+            this._loadingText.textContent = 'Сохранить';
+        }
     }
     
     _getInputValues() {
