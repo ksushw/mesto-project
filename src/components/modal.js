@@ -1,12 +1,10 @@
-const popupEdit = document.querySelector('.popup_type_edit');
-const buttonsClose = document.querySelectorAll('.popup__button-close');
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__description');
-const popupAvatar = document.querySelector('.popup_type_avatar-edit');
-const avatarIcon = document.querySelector('.profile__photo');
+//const popupEdit = document.querySelector('.popup_type_edit');
+//const buttonsClose = document.querySelectorAll('.popup__button-close');
+//const popupAvatar = document.querySelector('.popup_type_avatar-edit');
 
 
-const closeByEsc = ((evt) => {
+
+/* const closeByEsc = ((evt) => {
     if (evt.key === 'Escape') {
         const popupOpen = document.querySelector('.popup_opened')
         closePopup(popupOpen)
@@ -52,6 +50,8 @@ const unsetWaitingButton = ((popup)=>{
     const button = popup.querySelector('.form__button-save')
     button.textContent = "Сохранение"
 })
+
+*/
 
 class Popup {
     constructor(selector) {
@@ -127,4 +127,5 @@ class PopupWithForm extends Popup {
     }
 }
 
-export { popupEdit, avatarIcon, popupAvatar, setWaitingButton,unsetWaitingButton, profileName, profileJob, openPopup, closePopup, popupCloseHandler }
+//export { popupEdit, avatarIcon, popupAvatar, setWaitingButton,unsetWaitingButton, profileName, profileJob, openPopup, closePopup, popupCloseHandler }
+export { Popup, PopupWithForm, PopupWithImage }

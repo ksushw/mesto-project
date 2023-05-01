@@ -1,5 +1,5 @@
 import { userId } from './utils'
-import { openPopup } from './modal'
+//import { openPopup } from './modal'
 import { api } from '../components/api'
 
 const popupAdd = document.querySelector('.popup_type_add');
