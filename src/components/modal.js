@@ -86,7 +86,7 @@ class Popup {
 }
 
 class PopupWithImage extends Popup {
-    constructor(selector) {
+    constructor(image) {
         super(selector);
         this._image = this.popup.querySelector('.popup__image');
         this._caption = this.popup.querySelector('.popup__capture'); 
@@ -127,5 +127,4 @@ class PopupWithForm extends Popup {
     }
 }
 
-//export { popupEdit, avatarIcon, popupAvatar, setWaitingButton,unsetWaitingButton, profileName, profileJob, openPopup, closePopup, popupCloseHandler }
 export { Popup, PopupWithForm, PopupWithImage }

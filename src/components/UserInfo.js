@@ -1,4 +1,5 @@
 import { getUserInfo, editUserInfo, changeAvatar } from '../components/api'
+import { api } from '../components/api';
 
 export default class UserInfo {
     constructor({ nameSelector, descriptionSelector, imageSelector }) {
@@ -15,7 +16,7 @@ export default class UserInfo {
     }
 
     getUserInfo() {
-        return getUserInfo()
+        return api.getUserInfo()
             .then((responceUserInfo) => {
                 this._putInDom(responceUserInfo.name, responceUserInfo.about, responceUserInfo.avatar)
                 this._userId = responceUserInfo._id;
@@ -28,7 +29,7 @@ export default class UserInfo {
     }
 
     setUserInfo(name, job) {
-        return editUserInfo(name, job)
+        return api.editUserInfo(name, job)
             .then((userInfo) => {
                 this._putInDom(userInfo.name, userInfo.about, userInfo.avatar);
             })
@@ -37,8 +38,8 @@ export default class UserInfo {
             })
     }
 
-    setUserPicture(url) {
-        return changeAvatar(url)
+     setUserPicture(url) { // TO DO
+        return api.changeAvatar(url)
             .then((userInfo) => {
                 this._putInDom(userInfo.name, userInfo.about, userInfo.avatar)
             })
@@ -46,4 +47,5 @@ export default class UserInfo {
                 console.log(err);
             })
     }
+    
 }
