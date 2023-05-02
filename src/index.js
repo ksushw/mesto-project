@@ -9,9 +9,6 @@ import { api } from './components/api'
 
 const formAdd = document.forms["add-picture"];
 const places = document.querySelector('.places');
-const inputAvatarUrl = document.querySelector('.form__input_avatar')
-const nameInput = document.querySelector('.form__input_name');
-const jobInput = document.querySelector('.form__input_job');
 const popupPlace = document.querySelector('.form__input_place');
 const popupPictire = document.querySelector('.form__input_url');
 
@@ -66,29 +63,34 @@ const popupCapture = document.querySelector(".popup__capture");
 const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
     const postAvatar = async (avatarUrl) => {
         try {
-            setWaitingButton()
             const responce = await api.changeAvatar(avatarUrl);
             avatarIconImg.src = responce.avatar;
+            popupAvatarObj.toggleButtonText();
             popupAvatarObj.close();
         }
         catch(error) {
             console.log(error);
+            popupAvatarObj.toggleButtonText();
         }
     }
+
+    popupAvatarObj.toggleButtonText();
     postAvatar(avatarUrl.avatar);
 });
 
 const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
-    console.log(editData); // PUT HERE THE LOGIC OF SUBMIT EDIT DATA POPUP OR CALLBACK
-    //setWaitingButtton
     const changeUserInfo = async (editData) => {
         try {
             const responce = await profileInfo.setUserInfo(editData.name, editData.description);
+            popupEditObj.toggleButtonText();
         }
         catch (err) {
             console.log(err);
+            popupEditObj.toggleButtonText();
         }
     }
+
+    popupEditObj.toggleButtonText();
     changeUserInfo(editData); 
     popupEditObj.close();
 });
