@@ -1,4 +1,3 @@
-import { getUserInfo, editUserInfo, changeAvatar } from '../components/api'
 import { api } from '../components/api';
 
 export default class UserInfo {

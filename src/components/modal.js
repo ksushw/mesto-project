@@ -63,12 +63,13 @@ class Popup {
     open() {
         this.popup.classList.add('popup_opened');
         this.overlay.addEventListener('click', () => this.close());
-        document.addEventListener('keyup', (evt) => this._handlerEscClose(evt));
+        this.setEventListeners()
     }
 
     close() {
         document.removeEventListener('keyup', (evt) => this._handlerEscClose(evt))
         this.overlay.removeEventListener('click', () => this.close());
+        this.closeIcon.removeEventListener('click', () => this.close());
         this.popup.classList.remove('popup_opened');
     }
 
@@ -81,23 +82,26 @@ class Popup {
     setEventListeners() {
         this.closeIcon.addEventListener('click', () => this.close());
         this.overlay.addEventListener('click', () => this.close());
-        this.popup.addEventListener('keyup', (evt) => this._handlerEscClose(evt));
+        document.addEventListener('keyup', (evt) => this._handlerEscClose(evt));
     }
 }
 
 class PopupWithImage extends Popup {
-    constructor(image) {
+    constructor(selector) {
         super(selector);
         this._image = this.popup.querySelector('.popup__image');
-        this._caption = this.popup.querySelector('.popup__capture'); 
+        this._caption = this.popup.querySelector('.popup__capture');
     }
+
 
     open(imageSrc, imageCaption) {
         this._image.src = imageSrc;
-        this.image.alt = imageCaption;
+        this._image.alt = imageCaption;
         this._caption.textContent = imageCaption;
         super.open();
     }
+
+
 }
 
 class PopupWithForm extends Popup {
@@ -106,7 +110,7 @@ class PopupWithForm extends Popup {
         this._formSubmit = formSubmit;
         this._form = this.popup.querySelector('.form');
     }
-    
+
     _getInputValues() {
         this.inputs = Array.from(this._form.querySelectorAll('.form__input'));
         const values = {};
@@ -117,7 +121,7 @@ class PopupWithForm extends Popup {
         return values;
     }
 
-    setEventListeners(){
+    setEventListeners() {
         super.setEventListeners();
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();

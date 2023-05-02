@@ -1,5 +1,5 @@
 import './../pages/index.css';
-import { popupAdd, Card } from './components/Card';
+import { popupAdd, Card } from './components/card';
 import Section from './components/Section';
 import UserInfo from './components/UserInfo';
 // import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
@@ -43,8 +43,9 @@ Promise.all([profileInfo.getUserInfo(), api.getInitialCards()]).then(res => {
         console.log(err);
 });
 
- const clickImage = (() => {
-    
+ const clickImage = ((name, image) => {
+    const popupImageObj = new PopupWithImage(popupImg);
+    popupImageObj.open(image, name )
  })
 
 const avatarIcon = document.querySelector('.profile__photo');
@@ -57,6 +58,9 @@ const popupAvatarEl = document.querySelector('.popup_type_avatar-edit');
 const popupEditEl = document.querySelector('.popup_type_edit');
 const popupAddEl = document.querySelector('.popup_type_add');
 const popupImg = document.querySelector('.popup_type_img')
+const popupImage = document.querySelector(".popup__image");
+const popupCapture = document.querySelector(".popup__capture");
+
 
 // POPUP Objects
 const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
