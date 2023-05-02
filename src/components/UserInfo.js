@@ -1,4 +1,4 @@
-import { api } from '../components/api';
+import { api } from './Api';
 
 export default class UserInfo {
     constructor({ nameSelector, descriptionSelector, imageSelector }) {
@@ -37,7 +37,7 @@ export default class UserInfo {
             })
     }
 
-     setUserPicture(url) { // TO DO
+    setUserPicture(url) {
         return api.changeAvatar(url)
             .then((userInfo) => {
                 this._putInDom(userInfo.name, userInfo.about, userInfo.avatar)
@@ -46,5 +46,5 @@ export default class UserInfo {
                 console.log(err);
             })
     }
-    
+
 }

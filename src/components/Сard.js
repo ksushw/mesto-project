@@ -1,9 +1,6 @@
-import { api } from "./api";
+import { api } from "./Api";
 
-const popupAdd = document.querySelector(".popup_type_add");
-
-
-class Card {
+export default class Card {
     constructor(data, cardSelector, userId, clickImage) {
         this._ownerId = data.owner._id;
         this._imageUrl = data.link;
@@ -11,7 +8,7 @@ class Card {
         this._likes = data.likes;
         this._id = data._id;
         this._selector = cardSelector;
-        this._userId = userId; 
+        this._userId = userId;
         this._clickImage = clickImage;
     }
 
@@ -111,5 +108,3 @@ class Card {
         return this._element;
     }
 }
-
-export { popupAdd, Card };

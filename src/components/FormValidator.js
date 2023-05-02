@@ -20,20 +20,20 @@ class FormValidator {
         inputElement.classList.add(formSelectors.inputErrorClass);
     }
 
-    _checkInputValidity (formElement, inputElement, formSelectors) {
+    _checkInputValidity(formElement, inputElement, formSelectors) {
         if (inputElement.validity.patternMismatch) {
             inputElement.setCustomValidity(inputElement.dataset.errorMessage);
         } else {
             inputElement.setCustomValidity('');
         }
-    
+
         if (!inputElement.validity.valid) {
             this._showInputError(formElement, inputElement, inputElement.validationMessage, formSelectors)
         } else {
             this.hideInputError(formElement, inputElement, formSelectors);
         }
     }
-    
+
     _hasInvalidInput(inputList) {
         return inputList.some((inputElement) => {
             return !inputElement.validity.valid;
@@ -54,7 +54,7 @@ class FormValidator {
         const inputList = Array.from(formElement.querySelectorAll(formSelectors.inputSelector))
         const button = formElement.querySelector(formSelectors.submitButtonSelector)
         this._enableButton(inputList, button, formSelectors.inactiveButtonClass)
-    
+
         inputList.forEach((input) => {
             input.addEventListener('input', () => {
                 this._checkInputValidity(formElement, input, formSelectors);

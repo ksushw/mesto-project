@@ -1,11 +1,11 @@
 import './../pages/index.css';
-import { popupAdd, Card } from './components/card';
+import Card from './components/Сard';
 import Section from './components/Section';
 import UserInfo from './components/UserInfo';
-// import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'
-import { Popup, PopupWithForm, PopupWithImage } from './components/modal'
-import { FormValidator, formSelectors } from './components/validate' // hideInputError
-import { api } from './components/api'
+import { PopupWithForm } from './components/PopupWithForm'
+import { PopupWithImage } from './components/PopupWithImage'
+import { FormValidator, formSelectors } from './components/FormValidator' // hideInputError
+import { api } from './components/Api'
 
 const formAdd = document.forms["add-picture"];
 const places = document.querySelector('.places');
@@ -15,6 +15,17 @@ const popupPictire = document.querySelector('.form__input_url');
 // Popup Vars
 const addCardButton = document.querySelector('.profile__add'); //move it upstairs
 const profileEditButton = document.querySelector('.profile__edit'); //move it upstairs
+
+const avatarIcon = document.querySelector('.profile__photo');
+const avatarIconImg = document.querySelector('.profile__photo-img');
+
+// POPUP Elements 
+const popupAvatarEl = document.querySelector('.popup_type_avatar-edit');
+const popupEditEl = document.querySelector('.popup_type_edit');
+const popupAddEl = document.querySelector('.popup_type_add');
+const popupImg = document.querySelector('.popup_type_img')
+const popupAdd = document.querySelector(".popup_type_add");
+
 
 const profileInfo = new UserInfo({
     nameSelector: '.profile__name',
@@ -38,26 +49,12 @@ Promise.all([profileInfo.getUserInfo(), api.getInitialCards()]).then(res => {
 })
     .catch((err) => {
         console.log(err);
-});
+    });
 
- const clickImage = ((name, image) => {
+const clickImage = ((name, image) => {
     const popupImageObj = new PopupWithImage(popupImg);
-    popupImageObj.open(image, name )
- })
-
-const avatarIcon = document.querySelector('.profile__photo');
-const avatarIconImg = document.querySelector('.profile__photo-img');
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__description');
-
-// POPUP Elements 
-const popupAvatarEl = document.querySelector('.popup_type_avatar-edit');
-const popupEditEl = document.querySelector('.popup_type_edit');
-const popupAddEl = document.querySelector('.popup_type_add');
-const popupImg = document.querySelector('.popup_type_img')
-const popupImage = document.querySelector(".popup__image");
-const popupCapture = document.querySelector(".popup__capture");
-
+    popupImageObj.open(image, name)
+})
 
 // POPUP Objects
 const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
@@ -68,7 +65,7 @@ const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
             popupAvatarObj.toggleButtonText();
             popupAvatarObj.close();
         }
-        catch(error) {
+        catch (error) {
             console.log(error);
             popupAvatarObj.toggleButtonText();
         }
@@ -91,7 +88,7 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
     }
 
     popupEditObj.toggleButtonText();
-    changeUserInfo(editData); 
+    changeUserInfo(editData);
     popupEditObj.close();
 });
 
@@ -127,7 +124,6 @@ addCardButton.addEventListener('click', () => {
 // Add Card Logic OLD
 const handleAddFormSubmit = ((evt) => {
     evt.preventDefault(evt);
-    // setWaitingButton(popupAdd);
     api.addCardInServer(popupPlace.value, popupPictire.value)
         .then((card) => {
             const newCard = new Section({
@@ -145,9 +141,6 @@ const handleAddFormSubmit = ((evt) => {
         .catch((err) => {
             console.log(err);
         })
-        .finally(() => {
-            // unsetWaitingButton(popupAdd);
-        });
 });
 
 // enable all forms validation
@@ -157,17 +150,4 @@ forms.forEach((form) => {
     formValidator.enableValidation();
 })
 
-/*const setProfileDataInInput = (() => {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-}) */
-
-// --------------------------
-
-    
-
 formAdd.addEventListener('submit', handleAddFormSubmit);
-
-//setProfileDataInInput() 
-
-//popupCloseHandler()
