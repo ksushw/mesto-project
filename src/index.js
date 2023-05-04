@@ -1,5 +1,5 @@
 import './../pages/index.css'
-import { getInitialCards, getUserInfo, changeAvatar, editUserInfo, addCardInServer } from './components/api'
+import { getInitialCards, getUserInfo, changeAvatar, editUserInfo, addCardInServer } from './components/Api'
 import { setUserId } from './components/utils'
 import { popupAdd, addCard } from './components/card'
 import { popupEdit, closePopup, avatarIcon, popupAvatar, profileName, profileJob, openPopup, popupCloseHandler, setWaitingButton, unsetWaitingButton } from './components/modal'

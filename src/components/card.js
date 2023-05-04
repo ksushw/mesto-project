@@ -1,6 +1,6 @@
 import { userId } from './utils'
 import { openPopup } from './modal'
-import { deleteCardInServer, setLike, deleteLike } from './api'
+import { deleteCardInServer, setLike, deleteLike } from './Api'
 
 const popupAdd = document.querySelector('.popup_type_add');
 const popupImage = document.querySelector('.popup__image');
