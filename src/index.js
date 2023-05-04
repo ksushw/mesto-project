@@ -1,4 +1,4 @@
-import './../pages/index.css';
+import './pages/index.css';
 import Card from './components/Сard';
 import Section from './components/Section';
 import UserInfo from './components/UserInfo';
@@ -26,21 +26,24 @@ const popupAddEl = document.querySelector('.popup_type_add');
 const popupImg = document.querySelector('.popup_type_img')
 const popupAdd = document.querySelector(".popup_type_add");
 
+let cardSection = {};
 
-const profileInfo = new UserInfo({
-    nameSelector: '.profile__name',
-    descriptionSelector: '.profile__description',
-    imageSelector: '.profile__photo-img'
-});
+const userInfo = new UserInfo(
+    {
+        nameSelector: '.profile__name',
+        descriptionSelector: '.profile__description',
+        imageSelector: '.profile__photo-img'
+    });
 
-Promise.all([profileInfo.getUserInfo(), api.getInitialCards()]).then(res => {
+
+Promise.all([api.getUserInfo(), api.getInitialCards()]).then(res => {
     const responceUserInfo = res[0];
+    userInfo.setUserInfo(responceUserInfo);
     const responseGetInitialCard = res[1];
-    const cardSection = new Section({
+    cardSection = new Section({
         data: Array.from(responseGetInitialCard),
         renderer: (item) => {
-            const card = new Card(item, '#card-template', responceUserInfo._id, clickImage);
-            const cardElement = card.generate();
+            const cardElement = createCard(item)
             cardSection.setItems(cardElement)
         }
     }, places)
@@ -51,17 +54,25 @@ Promise.all([profileInfo.getUserInfo(), api.getInitialCards()]).then(res => {
         console.log(err);
     });
 
+const popupImageObj = new PopupWithImage(popupImg);
+
 const clickImage = ((name, image) => {
-    const popupImageObj = new PopupWithImage(popupImg);
     popupImageObj.open(image, name)
 })
+
+function createCard(item) {
+    const card = new Card(item, '#card-template', userInfo.getUserInfo().userId, clickImage);
+    const cardElement = card.generate();
+    return cardElement;
+}
+
 
 // POPUP Objects
 const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
     const postAvatar = async (avatarUrl) => {
         try {
             const responce = await api.changeAvatar(avatarUrl);
-            avatarIconImg.src = responce.avatar;
+            userInfo.setUserInfo(responce);
             popupAvatarObj.toggleButtonText();
             popupAvatarObj.close();
         }
@@ -78,7 +89,8 @@ const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
 const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
     const changeUserInfo = async (editData) => {
         try {
-            const responce = await profileInfo.setUserInfo(editData.name, editData.description);
+            const responce = await api.editUserInfo(editData.name, editData.description)
+            userInfo.setUserInfo(responce);
             popupEditObj.toggleButtonText();
         }
         catch (err) {
@@ -93,7 +105,14 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
 });
 
 const popupAddObj = new PopupWithForm(popupAddEl, (addCardData) => {
-    console.log(addCardData); // PUT HERE THE LOGIC OF SUBMIT ADD CARD POPUP OR CALLBACK
+    api.addCardInServer(addCardData.name, addCardData.description)
+        .then((card) => {
+            const newCard = createCard(card);
+            cardSection.setItems(newCard);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 });
 
 // Avatar Image Listener
@@ -121,28 +140,6 @@ addCardButton.addEventListener('click', () => {
     popupAddValidator.setDisableButton();
 });
 
-// Add Card Logic OLD
-const handleAddFormSubmit = ((evt) => {
-    evt.preventDefault(evt);
-    api.addCardInServer(popupPlace.value, popupPictire.value)
-        .then((card) => {
-            const newCard = new Section({
-                data: card,
-                renderer: (item) => {
-                    const card = new Card(item, '#card-template', profileInfo.getUserId(), clickImage);
-                    const cardElement = card.generate();
-                    newCard.setItems(cardElement)
-                }
-            }, places)
-            newCard.renderItem();
-            evt.target.reset();
-            closePopup(popupAdd);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-});
-
 // enable all forms validation
 const forms = Array.from(document.querySelectorAll('.form'));
 forms.forEach((form) => {
@@ -150,4 +147,3 @@ forms.forEach((form) => {
     formValidator.enableValidation();
 })
 
-formAdd.addEventListener('submit', handleAddFormSubmit);

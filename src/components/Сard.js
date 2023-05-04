@@ -11,7 +11,7 @@ export default class Card {
         this._userId = userId;
         this._clickImage = clickImage;
     }
-
+ 
     _getElement() {
         const cardElement = document
             .querySelector(this._selector)
@@ -92,6 +92,7 @@ export default class Card {
         this._cardImage = this._element.querySelector(".card__photo");
 
         this._image.src = this._imageUrl;
+        this._image.alt = this._cardName;
         this._name.textContent = this._cardName;
         this._amountLikes.textContent = this._likes.length;
 

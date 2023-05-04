@@ -9,10 +9,6 @@ export default class Section {
        this._container.prepend(element);
     }
 
-    renderItem() {
-        this._renderer(this._data);
-    }
-
     renderItems() {
         this._data.reverse();
         this._data.forEach(card => {
