@@ -3,23 +3,21 @@ class Popup {
         this.popup = selector;
         this.closeIcon = this.popup.querySelector('.popup__button-close');
         this.overlay = this.popup.querySelector('.popup__overlay');
+        this._handleEscClose = this._handleEscClose.bind(this);
     }
 
     open() {
         this.popup.classList.add('popup_opened');
-        this.overlay.addEventListener('click', () => this.close());
-        this.setEventListeners()
+        document.addEventListener('keyup', this._handleEscClose);
     }
 
     close() {
-        document.removeEventListener('keyup', (evt) => this._handlerEscClose(evt))
-        this.overlay.removeEventListener('click', () => this.close());
-        this.closeIcon.removeEventListener('click', () => this.close());
+        document.removeEventListener('keyup', this._handleEscClose);
         this.popup.classList.remove('popup_opened');
     }
 
-    _handlerEscClose(evt) {
-        if (evt.key === 'Escape' && this.popup.classList.contains('popup_opened')) {
+    _handleEscClose(evt) {
+        if (evt.key === 'Escape') {
             this.close();
         }
     }
@@ -27,7 +25,6 @@ class Popup {
     setEventListeners() {
         this.closeIcon.addEventListener('click', () => this.close());
         this.overlay.addEventListener('click', () => this.close());
-        document.addEventListener('keyup', (evt) => this._handlerEscClose(evt));
     }
 }
 

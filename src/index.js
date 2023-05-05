@@ -75,18 +75,18 @@ function createCard(item) {
 const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
     const postAvatar = async (avatarUrl) => {
         try {
-            const responce = await api.changeAvatar(avatarUrl);
+            const responce = await api.changeAvatar(avatarUrl.avatar);
             userInfo.setUserInfo(responce);
-            popupAvatarObj.toggleButtonText();
+            popupAvatarObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
             popupAvatarObj.close();
         }
         catch (error) {
             console.log(error);
-            popupAvatarObj.toggleButtonText();
+            popupAvatarObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
         }
     }
 
-    popupAvatarObj.toggleButtonText();
+    popupAvatarObj.toggleButtonText(true, 'Сохранить', 'Сохранение...');
     postAvatar(avatarUrl.avatar);
 });
 popupAvatarObj.setEventListeners();
@@ -96,15 +96,15 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
         try {
             const responce = await api.editUserInfo(editData.name, editData.description)
             userInfo.setUserInfo(responce);
-            popupEditObj.toggleButtonText();
+            popupEditObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
         }
         catch (err) {
             console.log(err);
-            popupEditObj.toggleButtonText();
+            popupEditObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
         }
     }
 
-    popupEditObj.toggleButtonText();
+    popupEditObj.toggleButtonText(true, 'Сохранить', 'Сохранение...');
     changeUserInfo(editData);
     popupEditObj.close();
 });
@@ -125,20 +125,19 @@ popupAddObj.setEventListeners();
 // Avatar Image Listener
 avatarIcon.addEventListener('click', function () {
     popupAvatarObj.open();
-    popupAvatarValidator.setDisableButton();
+    popupAvatarValidator.disableButton();
 });
 
 // Profile edit Listener
-
 profileEditButton.addEventListener('click', () => {
     popupEditObj.open();
-    popupEditValidator.setDisableButton();
+    popupEditValidator.disableButton();
 });
 
 // Add card popup Listener 
 addCardButton.addEventListener('click', () => {
     popupAddObj.open();
-    popupAddValidator.setDisableButton();
+    popupAddValidator.disableButton();
 });
 
 // enable all forms validation
