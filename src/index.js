@@ -26,6 +26,10 @@ const popupAddEl = document.querySelector('.popup_type_add');
 const popupImg = document.querySelector('.popup_type_img')
 const popupAdd = document.querySelector(".popup_type_add");
 
+const popupAvatarValidator = new FormValidator(formSelectors, popupAvatarEl);
+const popupEditValidator = new FormValidator(formSelectors, popupEditEl);
+const popupAddValidator = new FormValidator(formSelectors, popupAddEl);
+
 let cardSection = {};
 
 const userInfo = new UserInfo(
@@ -85,6 +89,7 @@ const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
     popupAvatarObj.toggleButtonText();
     postAvatar(avatarUrl.avatar);
 });
+popupAvatarObj.setEventListeners();
 
 const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
     const changeUserInfo = async (editData) => {
@@ -103,6 +108,7 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
     changeUserInfo(editData);
     popupEditObj.close();
 });
+popupEditObj.setEventListeners();
 
 const popupAddObj = new PopupWithForm(popupAddEl, (addCardData) => {
     api.addCardInServer(addCardData.name, addCardData.description)
@@ -114,12 +120,11 @@ const popupAddObj = new PopupWithForm(popupAddEl, (addCardData) => {
             console.log(err);
         })
 });
+popupAddObj.setEventListeners();
 
 // Avatar Image Listener
 avatarIcon.addEventListener('click', function () {
     popupAvatarObj.open();
-    popupAvatarObj.setEventListeners();
-    const popupAvatarValidator = new FormValidator(formSelectors, popupAvatarEl)
     popupAvatarValidator.setDisableButton();
 });
 
@@ -127,16 +132,12 @@ avatarIcon.addEventListener('click', function () {
 
 profileEditButton.addEventListener('click', () => {
     popupEditObj.open();
-    const popupEditValidator = new FormValidator(formSelectors, popupEditEl);
-    popupEditObj.setEventListeners();
     popupEditValidator.setDisableButton();
 });
 
 // Add card popup Listener 
 addCardButton.addEventListener('click', () => {
     popupAddObj.open();
-    popupAddObj.setEventListeners();
-    const popupAddValidator = new FormValidator(formSelectors, popupAddEl);
     popupAddValidator.setDisableButton();
 });
 

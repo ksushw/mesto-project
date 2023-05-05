@@ -30,6 +30,20 @@ class PopupWithForm extends Popup {
         return values;
     }
 
+    open() {
+        const formName = this._form.getAttribute('name');
+        if (formName === 'edit-profile') {
+            const inputName = this._form.querySelector('.form__input_name');
+            const inputSurname = this._form.querySelector('.form__input_job');
+            const profileName = document.querySelector('.profile__name').textContent;
+            const profileSurname = document.querySelector('.profile__description').textContent;
+            
+            inputName.value = profileName; 
+            inputSurname.value = profileSurname;
+        }
+        super.open();
+    }
+
     setEventListeners() {
         super.setEventListeners();
         this._form.addEventListener('submit', (evt) => {
