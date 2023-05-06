@@ -75,7 +75,7 @@ function createCard(item) {
 const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
     const postAvatar = async (avatarUrl) => {
         try {
-            const responce = await api.changeAvatar(avatarUrl.avatar);
+            const responce = await api.changeAvatar(avatarUrl);
             userInfo.setUserInfo(responce);
             popupAvatarObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
             popupAvatarObj.close();
@@ -88,6 +88,7 @@ const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
 
     popupAvatarObj.toggleButtonText(true, 'Сохранить', 'Сохранение...');
     postAvatar(avatarUrl.avatar);
+    popupAvatarObj.close();
 });
 popupAvatarObj.setEventListeners();
 
@@ -118,6 +119,9 @@ const popupAddObj = new PopupWithForm(popupAddEl, (addCardData) => {
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            popupAddObj.close();
         })
 });
 popupAddObj.setEventListeners();
