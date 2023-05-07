@@ -1,9 +1,10 @@
 import { Popup } from './Popup';
 
 class PopupWithForm extends Popup {
-    constructor(selector, formSubmit) {
+    constructor(selector, formSubmit, beforeOpen) {
         super(selector);
         this._formSubmit = formSubmit;
+        this._beforeOpen = beforeOpen;
         this._form = this.popup.querySelector('.form');
         this._submitButton = this._form.querySelector('.form__button-save');
         this._inputList = Array.from(this._form.querySelectorAll('.form__input'));
@@ -27,15 +28,8 @@ class PopupWithForm extends Popup {
     }
 
     open() {
-        const formName = this._form.getAttribute('name');
-        if (formName === 'edit-profile') {
-            const inputName = this._form.querySelector('.form__input_name');
-            const inputSurname = this._form.querySelector('.form__input_job');
-            const profileName = document.querySelector('.profile__name').textContent;
-            const profileSurname = document.querySelector('.profile__description').textContent;
-
-            inputName.value = profileName;
-            inputSurname.value = profileSurname;
+        if (this._beforeOpen) {
+            this._beforeOpen();
         }
         super.open();
     }
