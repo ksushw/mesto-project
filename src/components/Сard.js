@@ -1,7 +1,5 @@
-import { api } from "./Api";
-
 export default class Card {
-    constructor(data, cardSelector, userId, clickImage) {
+    constructor(data, cardSelector, userId, clickImage, api) {
         this._ownerId = data.owner._id;
         this._imageUrl = data.link;
         this._cardName = data.name;
@@ -10,8 +8,11 @@ export default class Card {
         this._selector = cardSelector;
         this._userId = userId;
         this._clickImage = clickImage;
+        this._setLikeApi = api.setLike.bind(api);
+        this._removeLikeApi = api.deleteLike.bind(api);
+        this._deleteCardApi = api.deleteCardInServer.bind(api);
     }
- 
+
     _getElement() {
         const cardElement = document
             .querySelector(this._selector)
@@ -22,8 +23,8 @@ export default class Card {
     }
 
     _setLike() {
-        api
-            .setLike(this._id)
+        
+        this._setLikeApi(this._id)
             .then((card) => {
                 this._like.classList.add("card__button-like_active");
                 this._amountLikes.textContent = card.likes.length;
@@ -34,8 +35,7 @@ export default class Card {
     }
 
     _removeLike() {
-        api
-            .deleteLike(this._id)
+        this._removeLikeApi(this._id)
             .then((card) => {
                 this._like.classList.remove("card__button-like_active");
                 this._amountLikes.textContent = card.likes.length;
@@ -58,8 +58,7 @@ export default class Card {
     }
 
     _handleDeleteCard() {
-        api
-            .deleteCardInServer(this._id)
+        this._deleteCardApi(this._id)
             .then(() => {
                 this._element.remove();
             })

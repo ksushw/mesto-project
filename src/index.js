@@ -64,7 +64,7 @@ const clickImage = ((name, image) => {
 })
 
 function createCard(item) {
-    const card = new Card(item, '#card-template', userInfo.getUserInfo().userId, clickImage);
+    const card = new Card(item, '#card-template', userInfo.getUserInfo().userId, clickImage, api);
     const cardElement = card.generate();
     return cardElement;
 }
