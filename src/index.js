@@ -61,7 +61,8 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(res => {
 const popupImageObj = new PopupWithImage(popupImg);
 
 const clickImage = ((name, image) => {
-    popupImageObj.open(image, name)
+    popupImageObj.open(image, name);
+    popupImageObj.setEventListeners();
 })
 
 function createCard(item) {
@@ -98,6 +99,7 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
             const responce = await api.editUserInfo(editData.name, editData.description)
             userInfo.setUserInfo(responce);
             popupEditObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
+            popupEditObj.close();
         }
         catch (err) {
             console.log(err);
@@ -107,22 +109,32 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
 
     popupEditObj.toggleButtonText(true, 'Сохранить', 'Сохранение...');
     changeUserInfo(editData);
-    popupEditObj.close();
-});
+}, 
+
+    () => {
+        const inputName = document.querySelector('.form__input_name');
+        const inputSurname = document.querySelector('.form__input_job');
+
+        const {name, about} = userInfo.getUserInfo();
+
+        inputName.value = name;
+        inputSurname.value = about;
+    }
+);
 popupEditObj.setEventListeners();
 
 const popupAddObj = new PopupWithForm(popupAddEl, (addCardData) => {
+    popupAddObj.toggleButtonText(true, 'Создать', 'Создание...');
     api.addCardInServer(addCardData.name, addCardData.description)
         .then((card) => {
             const newCard = createCard(card);
             cardSection.setItems(newCard);
+            popupAddObj.close();
         })
         .catch((err) => {
             console.log(err);
         })
-        .finally(() => {
-            popupAddObj.close();
-        })
+        .finally(() => popupAddObj.toggleButtonText(false, 'Создать', 'Создание...'));
 });
 popupAddObj.setEventListeners();
 
@@ -144,10 +156,7 @@ addCardButton.addEventListener('click', () => {
     popupAddValidator.disableButton();
 });
 
-// enable all forms validation
-const forms = Array.from(document.querySelectorAll('.form'));
-forms.forEach((form) => {
-    const formValidator = new FormValidator(formSelectors, form);
-    formValidator.enableValidation();
-})
+popupAvatarValidator.enableValidation();
+popupEditValidator.enableValidation();
+popupAddValidator.enableValidation();
 
