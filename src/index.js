@@ -76,11 +76,12 @@ const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
         try {
             const responce = await api.changeAvatar(avatarUrl);
             userInfo.setUserInfo(responce);
-            popupAvatarObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
             popupAvatarObj.close();
         }
         catch (error) {
             console.log(error);
+        }
+        finally {
             popupAvatarObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
         }
     }
@@ -94,11 +95,12 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
         try {
             const responce = await api.editUserInfo(editData.name, editData.description)
             userInfo.setUserInfo(responce);
-            popupEditObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
             popupEditObj.close();
         }
         catch (err) {
             console.log(err);
+        }
+        finally {
             popupEditObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
         }
     }
