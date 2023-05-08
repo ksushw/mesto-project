@@ -7,28 +7,26 @@ import { PopupWithImage } from './components/PopupWithImage'
 import { FormValidator, formSelectors } from './components/FormValidator' // hideInputError
 import { api } from './components/Api'
 
-const formAdd = document.forms["add-picture"];
 const places = document.querySelector('.places');
-const popupPlace = document.querySelector('.form__input_place');
-const popupPictire = document.querySelector('.form__input_url');
 
 // Popup Vars
 const addCardButton = document.querySelector('.profile__add'); //move it upstairs
 const profileEditButton = document.querySelector('.profile__edit'); //move it upstairs
 
 const avatarIcon = document.querySelector('.profile__photo');
-const avatarIconImg = document.querySelector('.profile__photo-img');
 
 // POPUP Elements 
 const popupAvatarEl = document.querySelector('.popup_type_avatar-edit');
 const popupEditEl = document.querySelector('.popup_type_edit');
 const popupAddEl = document.querySelector('.popup_type_add');
 const popupImg = document.querySelector('.popup_type_img')
-const popupAdd = document.querySelector(".popup_type_add");
 
 const popupAvatarValidator = new FormValidator(formSelectors, popupAvatarEl);
 const popupEditValidator = new FormValidator(formSelectors, popupEditEl);
 const popupAddValidator = new FormValidator(formSelectors, popupAddEl);
+
+const inputName = document.querySelector('.form__input_name');
+const inputSurname = document.querySelector('.form__input_job');
 
 let cardSection = {};
 
@@ -86,10 +84,8 @@ const popupAvatarObj = new PopupWithForm(popupAvatarEl, (avatarUrl) => {
             popupAvatarObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
         }
     }
-
     popupAvatarObj.toggleButtonText(true, 'Сохранить', 'Сохранение...');
     postAvatar(avatarUrl.avatar);
-    popupAvatarObj.close();
 });
 popupAvatarObj.setEventListeners();
 
@@ -106,16 +102,12 @@ const popupEditObj = new PopupWithForm(popupEditEl, (editData) => {
             popupEditObj.toggleButtonText(false, 'Сохранить', 'Сохранение...');
         }
     }
-
     popupEditObj.toggleButtonText(true, 'Сохранить', 'Сохранение...');
     changeUserInfo(editData);
-}, 
+},
 
     () => {
-        const inputName = document.querySelector('.form__input_name');
-        const inputSurname = document.querySelector('.form__input_job');
-
-        const {name, about} = userInfo.getUserInfo();
+        const { name, about } = userInfo.getUserInfo();
 
         inputName.value = name;
         inputSurname.value = about;
@@ -134,7 +126,9 @@ const popupAddObj = new PopupWithForm(popupAddEl, (addCardData) => {
         .catch((err) => {
             console.log(err);
         })
-        .finally(() => popupAddObj.toggleButtonText(false, 'Создать', 'Создание...'));
+        .finally(() => {
+            popupAddObj.toggleButtonText(false, 'Создать', 'Создание...')
+        });
 });
 popupAddObj.setEventListeners();
 
