@@ -1,9 +1,9 @@
-.popup__button-save {
+.form__button-save {
   border: none;
   outline: none;
   display: block;
   padding: 0;
-  margin-top: 48px;
+  margin-top: 15px;
   background-color: #000000;
   color: #FFFFFF;
   border-radius: 2px;
@@ -13,14 +13,14 @@
   line-height: 1.21;
 }
 
-.popup__button-save:hover,
-.popup__button-save:active {
+.form__button-save:hover,
+.form__button-save:active {
   opacity: 0.8;
 }
 
 @media (max-width: 767px) {
-  .popup__button-save {
-    margin-top: 45px;
+  .form__button-save {
+    margin-top: 31px;
     min-height: 46px;
     font-size: 14px;
   }

@@ -1,4 +1,4 @@
-.popup__form {
+.form {
   box-sizing: border-box;
   width: 430px;
   padding: 34px 36px 37px;
@@ -7,7 +7,7 @@
 }
 
 @media (max-width: 767px) {
-  .popup__form {
+  .form {
     padding: 25px 22px 25px 22px;
     width: calc(100% - (19px * 2));
     box-sizing: content-box;
